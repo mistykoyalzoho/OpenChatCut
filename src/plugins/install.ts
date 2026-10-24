@@ -163,10 +163,10 @@ export async function installFromUrl(url: string, opts?: InstallFromUrlOpts): Pr
   let text: string;
   try {
     const res = await fetch(url);
-    if (!res.ok) return err([`下载失败:HTTP ${res.status}`]);
+    if (!res.ok) return err([`Download failed: HTTP ${res.status}`]);
     text = await res.text();
   } catch (e) {
-    return err([`下载失败(可能被 CORS 拦):${e instanceof Error ? e.message : String(e)}。可下载文件后用「选文件」安装`]);
+    return err([`Download failed (possibly blocked by CORS): ${e instanceof Error ? e.message : String(e)}. Download the file and install it with Choose file.`]);
   }
   return installFromText(text, {
     ...opts,

@@ -75,8 +75,9 @@ assert.equal(llmOperationPath('cheaperinference'), '/chat/completions');
     'Cheaper Inference uses its own provider key as an OpenAI-compatible Bearer');
   assert.deepEqual(llmHeaders(reqFor('anthropic')), { 'x-api-key': 'ak-1', 'anthropic-version': '2023-06-01' }, 'anthropic x-api-key(经遗留迁移)');
   assert.deepEqual(llmHeaders(reqFor('xai-oauth')), {}, 'xAI OAuth 不回退到可能失效的持久化 token');
-  assert.match(llmErrorMessage(401, reqFor('gemini')), /Gemini.*设置.*API Key/, '认证错误给设置入口');
-  assert.match(llmErrorMessage(429, reqFor('openai')), /额度不足.*稍后重试/, '限流错误给额度提示');
+  assert.match(llmErrorMessage(401, reqFor('gemini')), /Gemini.*API key.*Settings/, 'authentication errors point to settings');
+  assert.match(llmErrorMessage(429, reqFor('openai')), /quota.*try again later/, 'rate-limit errors explain the quota');
+  assert.match(llmErrorMessage(422, reqFor('xai-oauth')), /request failed \(HTTP 422\).*Settings/, 'request errors are English');
 }
 
 const switched = expandLlmProviderPatch(new Map([['LLM_PROVIDER', 'openai']]), 'anthropic');

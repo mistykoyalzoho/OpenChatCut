@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 
 const documentElement = { lang: 'en' };
-let persistedLocale = 'it';
+let persistedLocale = 'zh';
 Object.defineProperty(globalThis, 'localStorage', {
   configurable: true,
   value: {
@@ -15,10 +15,11 @@ Object.defineProperty(globalThis, 'document', {
 });
 
 const { getLocale, setLocale } = await import('./locale');
-assert.equal(getLocale(), 'it');
-assert.equal(persistedLocale, 'it', 'initialization must preserve the saved language');
-assert.equal(documentElement.lang, 'it', 'the persisted locale must set the initial document language');
+assert.equal(getLocale(), 'en');
+assert.equal(persistedLocale, 'zh', 'a saved locale must not override the English interface');
+assert.equal(documentElement.lang, 'en', 'the document language must remain English');
 setLocale('zh');
+assert.equal(getLocale(), 'zh');
 assert.equal(persistedLocale, 'zh');
 assert.equal(documentElement.lang, 'zh-CN');
 

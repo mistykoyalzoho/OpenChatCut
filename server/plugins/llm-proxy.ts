@@ -44,22 +44,22 @@ export function llmErrorMessage(status: number, req?: IncomingMessage): string {
   const label = llmProviderPreset(provider).label;
   if (provider === 'xai-oauth' && (status === 401 || status === 403)) {
     return status === 403
-      ? 'xAI 拒绝了订阅会话的 API 访问（当前订阅档位可能未开放）。可升级订阅，或改在“设置 → Agent 模型 → xAI Grok”页配置 API Key 使用。'
-      : 'xAI 订阅会话已失效。请在终端运行 grok login 重新登录，然后在“设置 → Agent 模型 → xAI Grok (订阅登录)”页点击导入。';
+      ? 'xAI denied API access for this subscription session. Your subscription tier may not include API access. Upgrade your subscription or configure an API key in Settings → Agent Models → xAI Grok.'
+      : 'Your xAI subscription session has expired. Run `grok login` in a terminal, then import it in Settings → Agent Models → xAI Grok (Subscription sign-in).';
   }
   if (status === 401 || status === 403) {
-    return `${label} 认证失败。请在“设置 → Agent 模型”中检查 API Key。`;
+    return `${label} authentication failed. Check the API key in Settings → Agent Models.`;
   }
   if (status === 402 || status === 429) {
-    return `${label} 额度不足或请求过于频繁。请检查账户额度，稍后重试。`;
+    return `${label} quota is insufficient or requests are too frequent. Check your account quota and try again later.`;
   }
   if (status === 404) {
-    return `${label} 的接口或模型不存在。请检查 Base URL 和模型名称。`;
+    return `${label} endpoint or model was not found. Check the base URL and model name.`;
   }
   if (status >= 500) {
-    return `${label} 服务暂时不可用（HTTP ${status}）。请稍后重试或切换模型。`;
+    return `${label} is temporarily unavailable (HTTP ${status}). Try again later or switch models.`;
   }
-  return `${label} 请求失败（HTTP ${status}）。请检查“设置 → Agent 模型”中的连接配置。`;
+  return `${label} request failed (HTTP ${status}). Check the connection settings in Settings → Agent Models.`;
 }
 
 /** One dynamic proxy implementation shared by Vite dev and Electron production. */

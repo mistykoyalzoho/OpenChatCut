@@ -1,6 +1,10 @@
 // EN dictionary (field fragmentation, key = Chinese original text). Data files are exempt from the upper limit of row count.
 // Cover partition: App.tsx / Editor.tsx / components root directory shell / reframe.
 export default {
+  '切换 WebCodecs…': 'Switch to WebCodecs…',
+  '媒体池暂无素材': 'No media in the pool yet',
+  '无法将此属性应用到全部选中片段。': 'This property cannot be applied to all selected clips.',
+  '素材「{name}」已存在。覆盖会同步替换已在时间线中使用的该素材。': '“{name}” already exists. Replacing it also updates uses of this media on the timeline.',
   '背景颜色': 'Background color',
   '透明度': 'Opacity',
   "字体样式": "Font style",
