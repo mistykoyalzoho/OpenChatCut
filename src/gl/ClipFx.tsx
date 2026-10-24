@@ -176,7 +176,7 @@ export function ClipFx({ item, fit, width, height, frameOffset = 0, onPreviewSta
     const needsStudyFont = active.some(({ def }) => def.id === 'builtin:fx-study-tag-pill');
     let studyFontReady = !needsStudyFont;
     const historyContext = JSON.stringify([
-      item.id, item.src, fit, width, height, fps,
+      item.id, item.kind, item.src, item.srcInFrame ?? 0, item.playbackRate ?? 1, fit, width, height, fps,
       active.map(({ fx, def }) => [def.id, def.frag, fx.overrides]),
     ]);
     const needsHistory = active.some(({ def }) => def.requiresHistory);
@@ -200,6 +200,10 @@ export function ClipFx({ item, fit, width, height, frameOffset = 0, onPreviewSta
       if (!mediaReady) { reportWaiting(); raf = requestAnimationFrame(tick); return; }
       if (!studyFontReady) { reportWaiting(); raf = requestAnimationFrame(tick); return; }
       if (active.some(({ def }) => def.cube && !cubeSettled(def.cube))) { reportWaiting(); raf = requestAnimationFrame(tick); return; }
+      if (historyFrameRef.current && historyFrameRef.current.context !== historyContext) {
+        disposeRuntimeSlot(runtimeRef);
+        historyFrameRef.current = null;
+      }
       const priorHistory = historyFrameRef.current;
       const replayNeeded = needsHistory && frame > 0
         && !(priorHistory?.context === historyContext && priorHistory.frame === frame - 1);
