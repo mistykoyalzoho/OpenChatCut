@@ -113,10 +113,11 @@ function SelectedPreviewStatusReporter({ status, listener }: {
       adapter: status.adapter,
       phase: status.phase,
       fallbackReason: status.fallbackReason,
+      fallbackDetail: status.fallbackDetail,
     };
     listener(snapshot);
     return () => listener({ ...snapshot, phase: 'inactive' });
-  }, [listener, status.kind, status.targetId, status.adapter, status.phase, status.fallbackReason]);
+  }, [listener, status.kind, status.targetId, status.adapter, status.phase, status.fallbackReason, status.fallbackDetail]);
   return null;
 }
 

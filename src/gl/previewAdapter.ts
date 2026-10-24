@@ -10,6 +10,7 @@ export type SelectedPreviewFallbackReason =
   | 'shader-error'
   | 'unsupported-media'
   | 'unsupported-transition'
+  | 'history-transition-unsupported'
   | 'webgl-unavailable';
 
 export interface SelectedPreviewStatus {
@@ -18,6 +19,7 @@ export interface SelectedPreviewStatus {
   adapter: SelectedPreviewAdapter;
   phase: SelectedPreviewPhase;
   fallbackReason?: SelectedPreviewFallbackReason;
+  fallbackDetail?: string;
 }
 
 export function staticPreviewFallbackStatus(input: {

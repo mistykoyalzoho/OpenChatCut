@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import {
   glPreviewFailureReason,
   glTransitionPresentation,
@@ -10,6 +11,12 @@ import {
 import { buildEffectShaderFrame, buildTransitionShaderFrame, GL_COLOR_PIPELINE, transitionProgress } from './shaderFrame';
 import { disposeRuntimeSlot, ensureRuntimeSlot } from './runtimeSlot';
 import type { FxDef } from './fx/uniforms';
+
+const transitionSource = await readFile(new URL('./GlTransition.tsx', import.meta.url), 'utf8');
+assert.match(transitionSource, /effect\.requiresHistory[\s\S]*?history-transition-unsupported/,
+  'temporal effects overlapping a transition must be declared as an explicit CSS fallback');
+assert.match(transitionSource, /if \(rendering\) cancelRender\(new Error\(message\)\)/,
+  'temporal transitions must fail export instead of silently dropping their history');
 
 const selectedPlayer = selectTransitionPreviewAdapter({
   mode: 'player', selected: true, type: 'page-curl', texturable: true, hasShader: true,

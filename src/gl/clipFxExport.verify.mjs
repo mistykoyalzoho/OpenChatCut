@@ -47,10 +47,10 @@ async function decodeRgb(path, expectedFrameCount = frameCount) {
     stdout.subarray(index * frameBytes, (index + 1) * frameBytes));
 }
 
-function meanSquaredError(left, right, invertLeft = false) {
+function meanSquaredError(left, right, invertLeft = false, stride = 12) {
   let total = 0;
   let samples = 0;
-  for (let index = 0; index < left.length; index += 12) {
+  for (let index = 0; index < left.length; index += stride) {
     const leftValue = invertLeft ? 255 - left[index] : left[index];
     const delta = leftValue - right[index];
     total += delta * delta;
@@ -180,6 +180,88 @@ try {
     console.log(`clipFxExport.verify [${decoder}]: ${frameCount}/${frameCount} ${label} fractional-rate effect frames are transformed and frame-accurate${exactMappingSupported ? '' : ' (frame-sync assertions skipped on Linux CI)'} (max inverse MSE ${maximumSameFrameDistance.toFixed(2)})`);
   }
 
+  // Exercise temporal GL state from non-zero render chunks. Each worker starts
+  // at an arbitrary timeline frame, so the effect caller must decode and replay
+  // preceding source frames before rendering that chunk's first frame.
+  const historyPath = join(directory, 'history-effect.mp4');
+  process.env.OPENCHATCUT_RENDER_CONCURRENCY = '1';
+  await renderTimeline({
+    state: {
+      id: 'clip-fx-history-export-verification',
+      fps,
+      width,
+      height,
+      fit: 'contain',
+      tracks: { V1: { kind: 'video' } },
+      trackOrder: ['V1'],
+      selectedId: null,
+      selectedIds: [],
+      assets: [],
+      items: [{
+        id: 'clip-history',
+        name: 'source.mp4',
+        kind: 'video',
+        src: '/media/uploads/source.mp4',
+        track: 'V1',
+        startFrame: 0,
+        durationInFrames: frameCount,
+        srcInFrame: 0,
+        playbackRate: 1,
+        width,
+        height,
+        effects: [{ id: 'history-regression', assetId: 'builtin:fx-study-trace-motion' }],
+      }],
+    },
+    outputLocation: historyPath,
+    codec: 'h264',
+    h264Profile: softwareH264,
+  });
+  const historyFrames = await decodeRgb(historyPath);
+  const normalBaseline = await decodeRgb(join(directory, 'baseline-normal.mp4'));
+  assert.equal(historyFrames.length, frameCount, 'history effect export must render every frame');
+  assert.ok(
+    meanSquaredError(historyFrames[Math.floor(frameCount / 2)], normalBaseline[Math.floor(frameCount / 2)]) > 100,
+    'temporal GL effect must remain active in the exported frame after replay',
+  );
+  const isolatedHistoryPath = join(directory, 'history-effect-isolated-frame.mp4');
+  await renderTimeline({
+    state: {
+      id: 'clip-fx-history-export-verification',
+      fps,
+      width,
+      height,
+      fit: 'contain',
+      tracks: { V1: { kind: 'video' } },
+      trackOrder: ['V1'],
+      selectedId: null,
+      selectedIds: [],
+      assets: [],
+      items: [{
+        id: 'clip-history',
+        name: 'source.mp4',
+        kind: 'video',
+        src: '/media/uploads/source.mp4',
+        track: 'V1',
+        startFrame: 0,
+        durationInFrames: frameCount,
+        srcInFrame: 0,
+        playbackRate: 1,
+        width,
+        height,
+        effects: [{ id: 'history-regression', assetId: 'builtin:fx-study-trace-motion' }],
+      }],
+    },
+    outputLocation: isolatedHistoryPath,
+    frameRange: [30, 30],
+    codec: 'h264',
+    h264Profile: softwareH264,
+  });
+  process.env.OPENCHATCUT_RENDER_CONCURRENCY = '8';
+  const [isolatedFrame] = await decodeRgb(isolatedHistoryPath, 1);
+  const replayParityError = meanSquaredError(historyFrames[30], isolatedFrame, false, 1);
+  assert.ok(replayParityError < 10, `isolated frame with replay diverged from sequential history (MSE ${replayParityError.toFixed(2)})`);
+  console.log(`clipFxExport.verify [${decoder}]: sequential and isolated temporal frame agree after replay (MSE ${replayParityError.toFixed(2)})`);
+
   const transitionClipFrames = 45;
   const transitionDurationFrames = 20;
   const transitionFrameCount = transitionClipFrames * 2;
@@ -234,6 +316,18 @@ try {
   };
   const transitionBaselinePath = join(directory, 'transition-baseline.mp4');
   const transitionEffectPath = join(directory, 'transition-effect.mp4');
+  await assert.rejects(renderTimeline({
+    state: {
+      ...transitionState,
+      items: [{
+        ...transitionItems[0],
+        effects: [{ id: 'transition-history-regression', assetId: 'builtin:fx-study-trace-motion' }],
+      }, transitionItems[1]],
+    },
+    outputLocation: join(directory, 'unsupported-history-transition.mp4'),
+    codec: 'h264',
+    h264Profile: softwareH264,
+  }), /Temporal GL effect.*Trace Motion.*cannot be rendered across a transition/);
   await renderTimeline({
     state: transitionState,
     outputLocation: transitionBaselinePath,

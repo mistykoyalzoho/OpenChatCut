@@ -8,6 +8,7 @@ function fallbackReasonText(status: SelectedPreviewStatus): string {
   if (status.fallbackReason === 'missing-shader') return t('着色器资源缺失');
   if (status.fallbackReason === 'shader-error') return t('着色器编译或运行失败');
   if (status.fallbackReason === 'unsupported-transition') return t('转场不支持 GL');
+  if (status.fallbackReason === 'history-transition-unsupported') return t('Temporal effect {name} is unsupported during transitions', { name: status.fallbackDetail ?? '' });
   return t('资源尚未就绪');
 }
 

@@ -45,10 +45,12 @@ import halftoneFrag from './halftone.frag.ts';
 import motionBlurFrag from './motion-blur.frag.ts';
 import type { FxDef } from './uniforms';
 import type { FxPass } from '../runtime';
+import { STUDY_EFFECTS, STUDY_ORDER } from './studyEffects';
 
 const INVERT = { key: 'invert', label: '反转', default: 0, min: 0, max: 1, step: 1 };
 
 export const FX_EFFECTS: Record<string, FxDef> = {
+  ...STUDY_EFFECTS,
   'builtin:fx-luma-key': {
     id: 'builtin:fx-luma-key',
     name: '黑底叠加',
@@ -447,6 +449,7 @@ export const FX_EFFECTS: Record<string, FxDef> = {
 
 /** Core library order first, followed by extended effects. */
 export const FX_ORDER = [
+  ...STUDY_ORDER,
   'builtin:fx-rect-mask',
   'builtin:fx-circle-mask',
   'builtin:fx-local-mosaic',

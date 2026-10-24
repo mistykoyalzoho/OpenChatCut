@@ -41,6 +41,8 @@ export interface FxDef {
   pipeline?: (uniforms: Record<string, UniformValue>) => FxPass[];
   /** .cube 3D LUT URL(/luts/<file>);frag should be universal lut.frag(u_lut+u_intensity) */
   cube?: string;
+  /** Replay source frames from clip start when seeking a stateful effect. */
+  requiresHistory?: boolean;
 }
 
 /** Serializable subset of FxDef (without pipeline function field): persisted with TimelineState.fxDefs,

@@ -1,6 +1,7 @@
 import { createGlRuntime, type GlRuntime, type UniformValue } from './runtime';
 import { cubeSettled, getCubeSync, parseCube, type CubeLut } from './fx/cube';
 import { fxUniforms, type FxDef } from './fx/effects';
+import { ensureStudyFont, studyFontSettled } from './fx/studyFont';
 import { clearSampleFrames, ensureSampleFrame, getSampleFrame, SAMPLE_H, SAMPLE_W } from './sampleFrames';
 
 // Shared WebGL FX/LUT library-card previews. Photoreal sample frame + stronger
@@ -183,12 +184,13 @@ export function fxHoverOverrides(def: FxDef, phase: number): FxOverrides {
 }
 
 function renderFx(def: FxDef, time: number, overrides?: Record<string, UniformValue>): boolean {
+  if (def.id === 'builtin:fx-study-tag-pill' && !studyFontSettled()) return false;
   const sample = getSampleFrame('fx');
   if (!sample || !ensureRuntime() || !rt || !glCanvas) return false;
   const u = { ...fxUniforms(def, overrides), u_time: time };
   const lut3d = def.cube ? activeOrPreviewLut(def.cube) ?? undefined : undefined;
   if (def.cube && !lut3d) return false;
-  if (def.pipeline) rt.renderFxChain(def.pipeline(u), sample);
+  if (def.pipeline) rt.renderFxChain(def.pipeline(u), sample, def.id);
   else if (def.passes && def.passes.length > 1) {
     rt.renderFxChain(def.passes.map((frag) => ({ frag, uniforms: u })), sample);
   } else {
@@ -277,6 +279,7 @@ export async function fxThumbUrlAsync(def: FxDef): Promise<string> {
   const generation = resourceGeneration;
   try {
     await ensureSampleFrame('fx');
+    if (def.id === 'builtin:fx-study-tag-pill') await ensureStudyFont();
     if (resourceGeneration !== generation) return '';
     if (def.cube && !await ensurePreviewLut(def.cube)) return '';
     if (resourceGeneration !== generation) return '';

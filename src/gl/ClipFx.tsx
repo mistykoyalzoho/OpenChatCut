@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { AbsoluteFill, Img, OffthreadVideo, continueRender, delayRender, getRemotionEnvironment, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Img, OffthreadVideo, cancelRender, continueRender, delayRender, getRemotionEnvironment, useCurrentFrame, useVideoConfig } from 'remotion';
 import { Video as MediaVideo } from '@remotion/media';
 import { createGlRuntime, type GlRuntime } from './runtime';
 import { cubeSettled, ensureCube } from './fx/cube';
@@ -11,6 +11,8 @@ import type { AspectFit, TimelineItem } from '../editor/types';
 import { sourceFrameAt } from '../editor/sourceLimit';
 import { offthreadTrimBefore, offthreadVideoTransparent, useRuntimeVideoDecoder } from '../editor/serverVideoDecoder';
 import { glEffects } from './clipEffects';
+import { ensureStudyFont } from './fx/studyFont';
+import { historyReplayPassLimit, replayVideoHistory } from './fx/historyReplay';
 
 // One video/image clip rendered through a builtin:fx-* single-input WebGL pass.
 // Mounts a hidden, frame-synced media
@@ -77,6 +79,8 @@ export function ClipFx({ item, fit, width, height, frameOffset = 0, onPreviewSta
   const failedAdapterRef = useRef<{ definitionKey: string; reason: SelectedPreviewFallbackReason } | null>(null);
   const stagedRenderKeyRef = useRef<string | null>(null);
   const hasRenderedRef = useRef(false);
+  const historyFrameRef = useRef<{ context: string; frame: number } | null>(null);
+  const studyFontReadyRef = useRef<Promise<void> | null>(null);
   const [hasRendered, setHasRendered] = useState(false);
   const trimBefore = sourceFrameAt(item, frameOffset);
 
@@ -164,10 +168,21 @@ export function ClipFx({ item, fit, width, height, frameOffset = 0, onPreviewSta
       : null;
     if (priorFailure) {
       report('fallback', priorFailure);
+      if (isRendering) cancelRender(new Error(`GL effect ${active.map(({ def }) => def.name).join(', ')} failed: ${priorFailure}`));
       finish();
       return () => finish();
     }
     let waitingReported = false;
+    const needsStudyFont = active.some(({ def }) => def.id === 'builtin:fx-study-tag-pill');
+    let studyFontReady = !needsStudyFont;
+    const historyContext = JSON.stringify([
+      item.id, item.src, fit, width, height, fps,
+      active.map(({ fx, def }) => [def.id, def.frag, fx.overrides]),
+    ]);
+    const needsHistory = active.some(({ def }) => def.requiresHistory);
+    let replayStarted = false;
+    let disposed = false;
+    let replayController: AbortController | null = null;
     const reportWaiting = () => {
       if (waitingReported) return;
       waitingReported = true;
@@ -177,12 +192,69 @@ export function ClipFx({ item, fit, width, height, frameOffset = 0, onPreviewSta
     // LUT is an intentional pass-through with intensity=0 in fxPasses().
     for (const { def } of active) if (def.cube) void ensureCube(def.cube);
     const tick = () => {
+      if (disposed) return;
       const decodedVideo = item.kind !== 'image';
       const mediaReady = decodedVideo
         ? stagedRenderKeyRef.current === renderKey
         : !!imageRef.current?.complete;
       if (!mediaReady) { reportWaiting(); raf = requestAnimationFrame(tick); return; }
+      if (!studyFontReady) { reportWaiting(); raf = requestAnimationFrame(tick); return; }
       if (active.some(({ def }) => def.cube && !cubeSettled(def.cube))) { reportWaiting(); raf = requestAnimationFrame(tick); return; }
+      const priorHistory = historyFrameRef.current;
+      const replayNeeded = needsHistory && frame > 0
+        && !(priorHistory?.context === historyContext && priorHistory.frame === frame - 1);
+      if (replayNeeded) {
+        if (replayStarted) return;
+        replayStarted = true;
+        reportWaiting();
+        replayController = new AbortController();
+        let replayCanvas: HTMLCanvasElement | null = null;
+        let replayContext: CanvasRenderingContext2D | null;
+        const replayOne = (source: CanvasImageSource, localFrame: number) => {
+          if (!replayCanvas || !replayContext) throw new Error('2d context unavailable for GL history replay');
+          drawFit(replayContext, source, fit);
+          const replayFrame = buildEffectShaderFrame(
+            active.map(({ fx, def }) => ({ def, overrides: fx.overrides })),
+            localFrame,
+            fps,
+          );
+          const runtime = ensureRuntimeSlot(runtimeRef, () => createGlRuntime(canvas));
+          runtime.renderFxChain(
+            replayFrame.passes,
+            replayCanvas,
+            historyContext,
+            historyReplayPassLimit(replayFrame.passes),
+          );
+        };
+        const replay = Promise.resolve().then(async () => {
+          replayCanvas = document.createElement('canvas');
+          replayCanvas.width = width;
+          replayCanvas.height = height;
+          replayContext = replayCanvas.getContext('2d');
+          if (!replayContext) throw new Error('2d context unavailable for GL history replay');
+          if (item.kind === 'image') {
+              if (imageRef.current) for (let localFrame = 0; localFrame < frame; localFrame++) replayOne(imageRef.current, localFrame);
+          } else {
+            await replayVideoHistory({ item, targetFrame: frame, fps, signal: replayController!.signal, render: replayOne });
+          }
+        });
+        void replay.then(() => {
+          if (!disposed && !done) {
+            historyFrameRef.current = { context: historyContext, frame: frame - 1 };
+            tick();
+          }
+        }).catch((error: unknown) => {
+          if (disposed || replayController?.signal.aborted) return;
+          const reason = glPreviewFailureReason(error);
+          failedAdapterRef.current = { definitionKey, reason };
+          disposeRuntimeSlot(runtimeRef);
+          report('fallback', reason);
+          console.error('[clip-fx] history replay failed', error);
+          if (isRendering) cancelRender(error);
+          finish();
+        });
+        return;
+      }
       try {
         const runtime = ensureRuntimeSlot(runtimeRef, () => createGlRuntime(canvas));
         const ctx = staging.getContext('2d');
@@ -193,7 +265,9 @@ export function ClipFx({ item, fit, width, height, frameOffset = 0, onPreviewSta
           frame,
           fps,
         );
-        runtime.renderFxChain(shaderFrame.passes, staging);
+        // Keep temporal history isolated per clip and effect graph. Remotion may
+        // reuse the compositor runtime for multiple clips in one composition.
+        runtime.renderFxChain(shaderFrame.passes, staging, historyContext);
         // Make the freshly drawn canvas authoritative before unblocking export;
         // React state then preserves the same choice for subsequent renders.
         canvas.style.opacity = '1';
@@ -203,21 +277,32 @@ export function ClipFx({ item, fit, width, height, frameOffset = 0, onPreviewSta
           setHasRendered(true);
         }
         report('ready');
+        historyFrameRef.current = { context: historyContext, frame };
       } catch (error) {
         const reason = glPreviewFailureReason(error);
         failedAdapterRef.current = { definitionKey, reason };
         disposeRuntimeSlot(runtimeRef);
         report('fallback', reason);
         console.error('[clip-fx]', error);
+        if (isRendering) cancelRender(error);
       }
       finish();
     };
+    if (needsStudyFont) {
+      studyFontReadyRef.current ??= ensureStudyFont().catch((error: unknown) => {
+        // Continue with the CSS monospace fallback if the optional local font
+        // cannot load; waiting forever would stall a headless export.
+        console.warn('[clip-fx] JetBrains Mono unavailable; using fallback font', error);
+      });
+      void studyFontReadyRef.current.finally(() => { studyFontReady = true; });
+    }
     tick();
-    return () => { cancelAnimationFrame(raf); finish(); };
+    return () => { disposed = true; cancelAnimationFrame(raf); replayController?.abort(); finish(); };
   }, [active, definitionKey, fit, staging, item.id, item.kind, frame, fps, isRendering, renderKey, onPreviewStatus]);
 
   useEffect(() => () => {
     disposeRuntimeSlot(runtimeRef);
+    historyFrameRef.current = null;
   }, [width, height, definitionKey]);
 
   // Once any GL frame has been drawn, keep the canvas visible across seeks:

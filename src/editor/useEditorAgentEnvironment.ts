@@ -56,7 +56,8 @@ function useSelectedPreviewStatuses(selectedItemId?: string, selectedTransitionI
       const previous = current.find((entry) => entry.kind === status.kind && entry.targetId === status.targetId);
       if (previous?.adapter === status.adapter
         && previous.phase === status.phase
-        && previous.fallbackReason === status.fallbackReason) return current;
+        && previous.fallbackReason === status.fallbackReason
+        && previous.fallbackDetail === status.fallbackDetail) return current;
       return [...withoutTarget, status];
     });
   }, [selectedItemId, selectedTransitionId]);

@@ -23,7 +23,7 @@ void main() { gl_Position = vec4(a_position, 0.0, 1.0); v_texCoord = a_texCoord;
 import { GL_COLOR_PIPELINE } from './colorPipeline.js';
 import type { CubeLut } from './fx/cube.js';
 import { SOURCE_OPACITY_FRAG } from './sourceOpacity.js';
-import type { FxPass, GlRuntime, UniformValue } from './runtimeTypes.js';
+import type { FxPass, FxTextureData, GlRuntime, UniformValue } from './runtimeTypes.js';
 export type { FxPass, GlRuntime, UniformValue } from './runtimeTypes.js';
 
 let activeGlRuntimes = 0;
@@ -104,6 +104,12 @@ export function createGlRuntime(canvas: HTMLCanvasElement): GlRuntime {
   const texIn = makeTexture(gl);
   const texFx = makeTexture(gl);
   const programs = new Map<string, WebGLProgram>();
+  const atlasTextures = new Map<FxTextureData, WebGLTexture>();
+  const historyReadFramebuffer = gl.createFramebuffer();
+  const histories = new Map<string, {
+    input: WebGLTexture; output: WebGLTexture; time: number; parameters: string;
+    width: number; height: number;
+  }>();
 
   // One retained output per intermediate pass. ASCII rain needs its sharp base
   // and blurred branch at the same time, so two ping-pong textures are not enough.
@@ -155,6 +161,76 @@ export function createGlRuntime(canvas: HTMLCanvasElement): GlRuntime {
     else if (v.length === 2) gl.uniform2f(loc, v[0], v[1]);
     else if (v.length === 3) gl.uniform3f(loc, v[0], v[1], v[2]);
     else if (v.length === 4) gl.uniform4f(loc, v[0], v[1], v[2], v[3]);
+  };
+
+  const bindAuxiliary = (prog: WebGLProgram, pass: FxPass, unit: number,
+    inputTexture: WebGLTexture, key: string) => {
+    for (const [name, data] of Object.entries(pass.textureData ?? {})) {
+      const location = gl.getUniformLocation(prog, name);
+      if (!location) continue;
+      let texture = atlasTextures.get(data);
+      gl.activeTexture(gl.TEXTURE0 + unit);
+      if (!texture) {
+        texture = makeTexture(gl);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, data.width, data.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, data.data);
+        atlasTextures.set(data, texture);
+      }
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.uniform1i(location, unit++);
+    }
+    const historyLocation = gl.getUniformLocation(prog, 'u_history');
+    const feedbackLocation = gl.getUniformLocation(prog, 'u_feedback');
+    if (!historyLocation && !feedbackLocation) return { unit, commit: () => {} };
+    const time = Number(pass.uniforms?.u_time ?? 0);
+    const parameters = JSON.stringify(Object.entries(pass.uniforms ?? {}).filter(([name]) => name !== 'u_time'));
+    let history = histories.get(key);
+    if (history && (history.width !== canvas.width || history.height !== canvas.height)) {
+      gl.deleteTexture(history.input);
+      gl.deleteTexture(history.output);
+      histories.delete(key);
+      history = undefined;
+    }
+    const delta = history ? time - history.time : 0;
+    const valid = !!history && delta > 0 && delta <= 0.25 && history.parameters === parameters;
+    for (const [location, texture] of [
+      [historyLocation, valid ? history!.input : inputTexture],
+      [feedbackLocation, valid ? history!.output : inputTexture],
+    ] as const) {
+      if (!location) continue;
+      gl.activeTexture(gl.TEXTURE0 + unit);
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.uniform1i(location, unit++);
+    }
+    setUniform(prog, 'u_historyValid', valid ? 1 : 0);
+    setUniform(prog, 'u_deltaTime', valid ? delta : 1 / 30);
+    const commit = () => {
+      if (!history) {
+        const allocate = () => {
+          const texture = makeTexture(gl);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, canvas.width, canvas.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+          return texture;
+        };
+        history = { input: allocate(), output: allocate(), time, parameters,
+          width: canvas.width, height: canvas.height };
+        histories.set(key, history);
+      }
+      // Keep input and output separately: motion compares source frames while
+      // feedback accumulates the pass output. Neither aliases the draw target.
+      const framebuffer = gl.getParameter(gl.FRAMEBUFFER_BINDING) as WebGLFramebuffer | null;
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, history.output);
+      gl.copyTexSubImage2D(gl.TEXTURE_2D, 0, 0, 0, 0, 0, canvas.width, canvas.height);
+      gl.bindFramebuffer(gl.READ_FRAMEBUFFER, historyReadFramebuffer);
+      gl.framebufferTexture2D(gl.READ_FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, inputTexture, 0);
+      gl.bindTexture(gl.TEXTURE_2D, history.input);
+      gl.copyTexSubImage2D(gl.TEXTURE_2D, 0, 0, 0, 0, 0, canvas.width, canvas.height);
+      gl.bindFramebuffer(gl.READ_FRAMEBUFFER, framebuffer);
+      history.time = time;
+      history.parameters = parameters;
+    };
+    return { unit, commit };
   };
 
   // ── 3D LUT texture (source $Ne/uJ): with OES_texture_float_linear using RGB32F+FLOAT,
@@ -250,6 +326,7 @@ export function createGlRuntime(canvas: HTMLCanvasElement): GlRuntime {
     passes: FxPass[],
     source: WebGLTexture,
     offset: number,
+    historyContext = '',
   ): WebGLTexture => {
     if (passes.length === 0) return source;
     const targets = ensureFbos(offset + passes.length);
@@ -289,9 +366,12 @@ export function createGlRuntime(canvas: HTMLCanvasElement): GlRuntime {
       setUniform(prog, 'u_resolution', [canvas.width, canvas.height]);
       setUniform(prog, 'u_aspect', canvas.width / Math.max(1, canvas.height));
       for (const [key, value] of Object.entries(pass.uniforms ?? {})) setUniform(prog, key, value);
+      const auxiliary = bindAuxiliary(prog, pass, unit + 1, inputTexture,
+        `${historyContext}:${offset + index}:${pass.frag}`);
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      auxiliary.commit();
     }
     return targets[offset + passes.length - 1].tex;
   };
@@ -341,15 +421,17 @@ export function createGlRuntime(canvas: HTMLCanvasElement): GlRuntime {
       progress,
       extra,
       sourceOpacity,
+      historyContexts,
     ) {
       assertContextAvailable();
       upload(texOut, 0, outgoing);
       upload(texIn, 1, incoming);
-      const filteredOutgoing = renderFxPassesToTexture(outgoingPasses, texOut, 0);
+      const filteredOutgoing = renderFxPassesToTexture(outgoingPasses, texOut, 0, historyContexts?.outgoing);
       const filteredIncoming = renderFxPassesToTexture(
         incomingPasses,
         texIn,
         outgoingPasses.length,
+        historyContexts?.incoming,
       );
       const opacityOffset = outgoingPasses.length + incomingPasses.length;
       const compositedOutgoing = applySourceOpacity(
@@ -394,17 +476,18 @@ export function createGlRuntime(canvas: HTMLCanvasElement): GlRuntime {
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     },
-    renderFxChain(passes, input) {
+    renderFxChain(passes, input, historyContext = '', maxPasses = passes.length) {
       assertContextAvailable();
       if (passes.length === 0) return;
       const rt = ensureFbos(Math.max(0, passes.length - 1));
+      const passLimit = Math.max(0, Math.min(passes.length, Math.floor(maxPasses)));
       // upload the source once (flip: DOM sources are top-down)
       gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_2D, texFx);
       gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
       gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, gl.NONE);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, input);
-      for (let i = 0; i < passes.length; i++) {
+      for (let i = 0; i < passLimit; i++) {
         const last = i === passes.length - 1;
         gl.bindFramebuffer(gl.FRAMEBUFFER, last ? null : rt[i].fb);
         gl.viewport(0, 0, canvas.width, canvas.height);
@@ -437,9 +520,12 @@ export function createGlRuntime(canvas: HTMLCanvasElement): GlRuntime {
         setUniform(prog, 'u_resolution', [canvas.width, canvas.height]);
         setUniform(prog, 'u_aspect', canvas.width / Math.max(1, canvas.height));
         for (const [k, v] of Object.entries(passes[i].uniforms ?? {})) setUniform(prog, k, v);
+        const auxiliary = bindAuxiliary(prog, passes[i], unit, inputTex,
+          `${historyContext}:${i}:${passes[i].frag}`);
         gl.clearColor(0, 0, 0, 0);
         gl.clear(gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        auxiliary.commit();
       }
       gl.bindFramebuffer(gl.FRAMEBUFFER, null); // restore for later single-pass draws
     },
@@ -453,6 +539,14 @@ export function createGlRuntime(canvas: HTMLCanvasElement): GlRuntime {
       gl.deleteTexture(texOut);
       gl.deleteTexture(texIn);
       gl.deleteTexture(texFx);
+      for (const texture of atlasTextures.values()) gl.deleteTexture(texture);
+      atlasTextures.clear();
+      for (const history of histories.values()) {
+        gl.deleteTexture(history.input);
+        gl.deleteTexture(history.output);
+      }
+      histories.clear();
+      gl.deleteFramebuffer(historyReadFramebuffer);
       for (const t of lutTextures.values()) gl.deleteTexture(t);
       lutTextures.clear();
       if (dummyLut) { gl.deleteTexture(dummyLut); dummyLut = null; }

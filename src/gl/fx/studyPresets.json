@@ -1,0 +1,5513 @@
+[
+  {
+    "slug": "thermal-pink",
+    "name": "Thermal Pink",
+    "duration": 3.433333333333333,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "thermal",
+        "params": {
+          "enabled": true,
+          "soften": 16,
+          "detail": 0.22,
+          "gradient": 0,
+          "reverse": false,
+          "low": 0,
+          "high": 1,
+          "gamma": 1,
+          "relief": 0,
+          "light": 1,
+          "motion": 0,
+          "motionGain": 5,
+          "motionFloor": 0.015,
+          "attack": 1,
+          "trail": 0,
+          "hotEdges": 0,
+          "glow": 0,
+          "glowSize": 48,
+          "streaks": 0,
+          "palette": "heat",
+          "customPalette": "#b9a2f2, #cf8eea, #dc8fd6, #e692bc, #ec9aa8, #efab9c, #f3bd93, #fbc985, #f6efe6, #bbede8, #bbe4f1, #bfccf3",
+          "wrap": true,
+          "cycles": 1.2,
+          "phase": 0.67,
+          "steps": 0,
+          "drift": 0.06,
+          "breathe": 0.12,
+          "progress": 0,
+          "wipe": "wipe",
+          "order": "near",
+          "soft": 0.18,
+          "blocks": 28,
+          "edge": 0.3,
+          "under": "footage",
+          "paper": "#e7e6e3",
+          "moves": [],
+          "emissiveGain": 1,
+          "lookFrameWidth": 1200,
+          "lookPreset": "house"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [
+      {
+        "index": 0,
+        "path": [
+          "params",
+          "progress"
+        ],
+        "keys": [
+          {
+            "t": 0,
+            "v": 0,
+            "ease": "linear"
+          },
+          {
+            "t": 1,
+            "v": 1.13,
+            "ease": "easeOut"
+          },
+          {
+            "t": 1.7,
+            "v": 1.13,
+            "ease": "linear"
+          },
+          {
+            "t": 2.566666666666667,
+            "v": 2,
+            "ease": "spring"
+          }
+        ]
+      }
+    ],
+    "post": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "neo-motion",
+    "name": "Neo Motion",
+    "duration": 29.5,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "retroMatrix",
+        "params": {
+          "enabled": true,
+          "spacing": 15,
+          "dotSpacing": 12,
+          "highlightThresh": 0.6,
+          "ditherThresh": 0.45,
+          "midtoneThresh": 0.3,
+          "shadowThresh": 0.15,
+          "blockHeight": 0.85,
+          "mergeProb": 0.8,
+          "dotGrid": 3,
+          "randOffset": 1.5,
+          "edgeOnly": true,
+          "showHighlight": true,
+          "showTransition": true,
+          "showMidtone": true,
+          "showDot": true,
+          "animate": true,
+          "sway": 3,
+          "pulse": 0.05,
+          "glitch": 0.2,
+          "glowHighlight": true,
+          "glowTransition": false,
+          "glowMidtone": false,
+          "glowDot": true,
+          "loopDuration": 5,
+          "brightness": 0,
+          "contrast": 10,
+          "gamma": 1.05,
+          "foreground": "#42ff70",
+          "background": "#020703",
+          "colorMode": "mono",
+          "backgroundOpacity": 1,
+          "marksPaper": false,
+          "fieldMode": "off",
+          "fieldBlend": "offset",
+          "fieldDrive": 0.35,
+          "fieldScale": 4,
+          "fieldSpeed": 0.6,
+          "fieldGap": 0,
+          "fieldGapStyle": "empty",
+          "cellRotate": 0,
+          "cellFlip": 0,
+          "cellTruchet": 0,
+          "fieldScatter": 0,
+          "cellSettle": 0,
+          "temporalDither": 0,
+          "tonePump": 0,
+          "paletteMarch": 0,
+          "cascade": 0,
+          "fieldPalette": "off",
+          "moves": [],
+          "emissiveGain": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 0,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {
+              "brightness": "brightness",
+              "contrast": "contrast",
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "brightness": 0,
+              "contrast": 0,
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#0a0a0c",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "2"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "lighten",
+          "appears": "all",
+          "softness": 0.25
+        }
+      },
+      {
+        "type": "kineticTrace",
+        "params": {
+          "enabled": true,
+          "preset": "custom",
+          "motionPreset": "direction",
+          "texturePreset": "prismatic",
+          "mode": "direction",
+          "memory": "fade",
+          "style": "source",
+          "background": "black",
+          "material": "dither",
+          "inkColor": "#1d4ed8",
+          "paperColor": "#f4f2ea",
+          "fineMotion": 70,
+          "mediumMotion": 90,
+          "broadMotion": 45,
+          "sensitivity": 74,
+          "noiseReject": 62,
+          "body": 24,
+          "gain": 48,
+          "geometry": 22,
+          "trail": 1100,
+          "echoGap": 5,
+          "ageColor": 18,
+          "materialScale": 18,
+          "materialFill": 138,
+          "feedback": 6,
+          "feedbackZoom": 2,
+          "feedbackSpin": 0,
+          "maskMode": "exclude",
+          "brushSize": 12,
+          "maskRevision": 0,
+          "resetToken": 0,
+          "moves": [],
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 0,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {},
+            "neutral": {}
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#000000",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "house"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "multiply",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": true,
+        "threshold": 0.35,
+        "knee": 0.5,
+        "levels": 7,
+        "radius": 1.8,
+        "levelGain": 0.9,
+        "intensity": 1.1,
+        "tints": [
+          [
+            1,
+            0.62,
+            0.22
+          ],
+          [
+            1,
+            0.45,
+            0.15
+          ],
+          [
+            1,
+            0.3,
+            0.1
+          ],
+          [
+            0.9,
+            0.18,
+            0.08
+          ],
+          [
+            0.7,
+            0.1,
+            0.08
+          ],
+          [
+            0.5,
+            0.06,
+            0.1
+          ]
+        ],
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": true,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 18,
+        "mirror": false,
+        "length": 0.42,
+        "intensity": 0.5,
+        "tint": [
+          1,
+          0.42,
+          0.92
+        ],
+        "threshold": 0.55,
+        "knee": 0.5,
+        "taps": 22,
+        "falloff": 0.88
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "blox-counter",
+    "name": "Blox Counter",
+    "duration": 3.2333333333333334,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "contourMap",
+        "params": {
+          "enabled": true,
+          "detail": 3,
+          "smooth": 6,
+          "bands": 6,
+          "multi": 3,
+          "tight": 4,
+          "lineWidth": 1.9,
+          "lineAlpha": 0.525,
+          "charset": "mixed",
+          "glyphSize": 21,
+          "spacing": 16,
+          "boxes": 0.3,
+          "boxSize": 0.925,
+          "labels": 0.35,
+          "ticks": 0.1,
+          "glow": 0.9,
+          "heroes": 1,
+          "accent": "#ca282d",
+          "seed": 101,
+          "drift": 0,
+          "driftSpeed": 1,
+          "moves": [],
+          "foreground": "#c9c7c0",
+          "background": "#1c1c1e",
+          "backgroundOpacity": 1,
+          "emissiveGain": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 0,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {},
+            "neutral": {}
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#1c1c1e",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "house"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": true,
+        "threshold": 0.35,
+        "knee": 0.5,
+        "levels": 7,
+        "radius": 1.8,
+        "levelGain": 0.9,
+        "intensity": 1.1,
+        "tints": [
+          [
+            1,
+            0.62,
+            0.22
+          ],
+          [
+            1,
+            0.45,
+            0.15
+          ],
+          [
+            1,
+            0.3,
+            0.1
+          ],
+          [
+            0.9,
+            0.18,
+            0.08
+          ],
+          [
+            0.7,
+            0.1,
+            0.08
+          ],
+          [
+            0.5,
+            0.06,
+            0.1
+          ]
+        ],
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "ditbox",
+    "name": "Ditbox",
+    "duration": 6,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "dither",
+        "params": {
+          "enabled": true,
+          "pattern": "bayer2",
+          "scale": 9,
+          "levels": 2,
+          "intensity": 1.09,
+          "noise": 0,
+          "invert": false,
+          "gap": 0,
+          "edgeGlow": 0.3,
+          "animate": false,
+          "animSpeed": 1,
+          "animAmount": 0.5,
+          "scatterX": 0,
+          "scatterY": 0,
+          "windAngle": 0,
+          "windForce": 0,
+          "wobble": 0,
+          "wobbleSpeed": 1,
+          "ditherMotionMode": "off",
+          "ditherMotionAmount": 0.65,
+          "ditherMotionSpeed": 0.8,
+          "ditherMotionScale": 4,
+          "ditherMotionAngle": 45,
+          "ditherPatternTravel": 0.65,
+          "ditherThresholdFlow": 0.5,
+          "ditherCellPulse": 0.3,
+          "ditherGrainFlow": 0.25,
+          "ditherLevelShift": 0.25,
+          "moves": [],
+          "brightness": 0,
+          "contrast": 18,
+          "gamma": 1,
+          "colorMode": "mono",
+          "foreground": "#1a1a1a",
+          "background": "#f4efe4",
+          "backgroundOpacity": 1,
+          "emissiveGain": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 20,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {
+              "brightness": "brightness",
+              "contrast": "contrast",
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "brightness": 0,
+              "contrast": 0,
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#9bbc0f",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "custom"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "line-craze",
+    "name": "Line Craze",
+    "duration": 5.208333,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "vhs",
+        "params": {
+          "enabled": true,
+          "soft": 0.45,
+          "bleed": 0.5,
+          "smear": 0.45,
+          "sharp": 0.6,
+          "rainbow": 0.25,
+          "ghost": 0.1,
+          "wear": 0,
+          "noise": 0.3,
+          "cnoise": 0.45,
+          "drop": 0.25,
+          "jitter": 0.3,
+          "wow": 0.2,
+          "track": 0.12,
+          "head": 0.5,
+          "flag": 0.25,
+          "inter": 0.6,
+          "events": 0.35,
+          "scan": 0.22,
+          "curve": 0.05,
+          "vig": 0.18,
+          "bloom": 0.3,
+          "streak": 0.15,
+          "conv": 0.15,
+          "hum": 0.06,
+          "snow": 0.05,
+          "flick": 0.12,
+          "frame43": false,
+          "fade": 0.45,
+          "sat": 0.85,
+          "hue": 3,
+          "warm": 0.15,
+          "bw": false,
+          "transport": "play",
+          "osdMode": "off",
+          "osdShowDate": true,
+          "osdDate": "DEC 24 1989",
+          "osdTime": "6:32 PM",
+          "osdTitle": "",
+          "osdTitleColor": "#f2f2ee",
+          "osdCounter": true,
+          "brightness": 0,
+          "contrast": 0,
+          "gamma": 1,
+          "moves": [],
+          "emissiveGain": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 0,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {
+              "brightness": "brightness",
+              "contrast": "contrast",
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "brightness": 0,
+              "contrast": 0,
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#15100d",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "house"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "add",
+          "appears": "shadows",
+          "softness": 0.54
+        }
+      },
+      {
+        "type": "contour",
+        "params": {
+          "enabled": true,
+          "levels": 16,
+          "lineWidth": 1.65,
+          "lineSmoothing": 1.65,
+          "filled": false,
+          "invert": true,
+          "drift": 0,
+          "driftSpeed": 1,
+          "fieldMode": "off",
+          "fieldBlend": "offset",
+          "fieldDrive": 0.35,
+          "fieldScale": 4,
+          "fieldSpeed": 0.6,
+          "fieldGap": 0,
+          "fieldGapStyle": "empty",
+          "cellRotate": 0,
+          "cellFlip": 0,
+          "cellTruchet": 0,
+          "fieldScatter": 0,
+          "cellSettle": 0,
+          "temporalDither": 0,
+          "tonePump": 0,
+          "paletteMarch": 0,
+          "cascade": 0,
+          "fieldPalette": "off",
+          "moves": [],
+          "brightness": 6,
+          "contrast": -8,
+          "gamma": 0.51,
+          "colorMode": "mono",
+          "foreground": "#d8ff3e",
+          "background": "#161616",
+          "backgroundOpacity": 1,
+          "emissiveGain": 1,
+          "lookSource": {
+            "brightness": 6,
+            "contrast": -8,
+            "gamma": 0.51,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {
+              "brightness": "brightness",
+              "contrast": "contrast",
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "brightness": 0,
+              "contrast": 0,
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#fbf8ef",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "custom"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "multiply",
+          "appears": "all",
+          "softness": 0.25
+        }
+      },
+      {
+        "type": "contourMap",
+        "params": {
+          "enabled": true,
+          "detail": 3,
+          "smooth": 7,
+          "bands": 10,
+          "multi": 4,
+          "tight": 4.3,
+          "lineWidth": 0.8,
+          "lineAlpha": 0.6,
+          "charset": "symbols",
+          "glyphSize": 13.75,
+          "spacing": 16,
+          "boxes": 0.05,
+          "boxSize": 1.25,
+          "labels": 0.15,
+          "ticks": 0.05,
+          "glow": 0.25,
+          "heroes": 0.05,
+          "accent": "#ef282d",
+          "seed": 4,
+          "drift": 0,
+          "driftSpeed": 1,
+          "moves": [],
+          "foreground": "#c9c7c0",
+          "background": "#1c1c1e",
+          "backgroundOpacity": 1,
+          "emissiveGain": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 0,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {},
+            "neutral": {}
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#1c1c1e",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "custom"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "add",
+          "appears": "all",
+          "softness": 0.25
+        }
+      },
+      {
+        "type": "crtScreen",
+        "params": {
+          "enabled": true,
+          "curvature": 0.2,
+          "zoom": 1,
+          "aberration": 1.38,
+          "edgeBlur": 0.25,
+          "vignette": 0.18,
+          "gridSize": 1,
+          "gridStrength": 0.28,
+          "subpixel": 0.1,
+          "reflection": 0.45,
+          "windowStyle": "wide",
+          "windowSize": 1,
+          "streaks": 0.3,
+          "tint": 0.4,
+          "lift": 0.3,
+          "bloom": 0.2,
+          "grime": 0.25,
+          "tintColor": "#e4fff6",
+          "brightness": 0,
+          "contrast": 6,
+          "gamma": 1,
+          "moves": [],
+          "emissiveGain": 1,
+          "drift": 0,
+          "driftSpeed": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 6,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {
+              "brightness": "brightness",
+              "contrast": "contrast",
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "brightness": 0,
+              "contrast": 0,
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#101312",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "4"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": true,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "stardust-go",
+    "name": "Stardust Go",
+    "duration": 5.937299999952302,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "stardust",
+        "params": {
+          "enabled": true,
+          "mode": "edges",
+          "toneZone": "dark",
+          "toneLow": 25,
+          "toneHigh": 75,
+          "density": 4,
+          "particleSize": 3.1,
+          "threshold": 9,
+          "underlay": 0.16,
+          "palette": "original",
+          "cycle": "smooth",
+          "cycleSpeed": 0.6,
+          "colorA": "#3a2b4f",
+          "colorB": "#c86bfa",
+          "animate": false,
+          "twinkleSpeed": 2.05,
+          "shimmer": 0.34,
+          "drift": 0.25,
+          "dust": 0.62,
+          "seed": 10,
+          "loopDuration": 5,
+          "moves": [],
+          "background": "#030309",
+          "transparent": false,
+          "backgroundOpacity": 1,
+          "emissiveGain": 1.15
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      },
+      {
+        "type": "asciiGhost",
+        "params": {
+          "enabled": true,
+          "cell": 7,
+          "charset": "blocks",
+          "rhythm": 0.45,
+          "colorBoost": 0.05,
+          "inkFloor": 0,
+          "saturation": 1.35,
+          "contrast": 6,
+          "exposure": 0.6,
+          "text": 0.9,
+          "blend": true,
+          "photo": 0.35,
+          "bloom": 0,
+          "glow": 16,
+          "drift": 0.7,
+          "driftSpeed": 1,
+          "fieldMode": "off",
+          "fieldBlend": "offset",
+          "fieldDrive": 0.35,
+          "fieldScale": 4,
+          "fieldSpeed": 0.6,
+          "fieldGap": 0,
+          "fieldGapStyle": "empty",
+          "cellRotate": 0,
+          "cellFlip": 0,
+          "cellTruchet": 0,
+          "fieldScatter": 0,
+          "cellSettle": 0,
+          "temporalDither": 0,
+          "tonePump": 0,
+          "paletteMarch": 0,
+          "cascade": 0,
+          "fieldPalette": "off",
+          "moves": [],
+          "background": "#000000",
+          "transparent": false,
+          "marksPaper": false,
+          "fontFamily": "JetBrains Mono, Space Mono, ui-monospace, monospace",
+          "emissiveGain": 1
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "add",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": true,
+        "threshold": 0.35,
+        "knee": 0.5,
+        "levels": 7,
+        "radius": 1.8,
+        "levelGain": 0.9,
+        "intensity": 1.1,
+        "tints": [
+          [
+            1,
+            0.62,
+            0.22
+          ],
+          [
+            1,
+            0.45,
+            0.15
+          ],
+          [
+            1,
+            0.3,
+            0.1
+          ],
+          [
+            0.9,
+            0.18,
+            0.08
+          ],
+          [
+            0.7,
+            0.1,
+            0.08
+          ],
+          [
+            0.5,
+            0.06,
+            0.1
+          ]
+        ],
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": true,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 18,
+        "mirror": false,
+        "length": 0.42,
+        "intensity": 0.5,
+        "tint": [
+          1,
+          0.42,
+          0.92
+        ],
+        "threshold": 0.55,
+        "knee": 0.5,
+        "taps": 22,
+        "falloff": 0.88
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "trace-motion",
+    "name": "Trace Motion",
+    "duration": 6.066666666666668,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "kineticTrace",
+        "params": {
+          "enabled": true,
+          "preset": "directionBayer",
+          "motionPreset": "direction",
+          "texturePreset": "prismatic",
+          "mode": "direction",
+          "memory": "fade",
+          "style": "source",
+          "background": "black",
+          "material": "dither",
+          "inkColor": "#1d4ed8",
+          "paperColor": "#f4f2ea",
+          "fineMotion": 70,
+          "mediumMotion": 90,
+          "broadMotion": 45,
+          "sensitivity": 74,
+          "noiseReject": 62,
+          "body": 24,
+          "gain": 48,
+          "geometry": 22,
+          "trail": 1100,
+          "echoGap": 5,
+          "ageColor": 18,
+          "materialScale": 9,
+          "materialFill": 138,
+          "feedback": 6,
+          "feedbackZoom": 2,
+          "feedbackSpin": 0,
+          "maskMode": "exclude",
+          "brushSize": 12,
+          "maskRevision": 0,
+          "resetToken": 0,
+          "moves": []
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": true,
+        "threshold": 0.35,
+        "knee": 0.5,
+        "levels": 7,
+        "radius": 1.8,
+        "levelGain": 0.9,
+        "intensity": 0.36,
+        "tints": [
+          [
+            1,
+            0.62,
+            0.22
+          ],
+          [
+            1,
+            0.45,
+            0.15
+          ],
+          [
+            1,
+            0.3,
+            0.1
+          ],
+          [
+            0.9,
+            0.18,
+            0.08
+          ],
+          [
+            0.7,
+            0.1,
+            0.08
+          ],
+          [
+            0.5,
+            0.06,
+            0.1
+          ]
+        ],
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": true,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 38,
+        "mirror": false,
+        "length": 0.42,
+        "intensity": 0.26,
+        "tint": [
+          1,
+          0.42,
+          0.92
+        ],
+        "threshold": 0,
+        "knee": 0.5,
+        "taps": 22,
+        "falloff": 0.88
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "ascii-cg0",
+    "name": "ASCII CG0",
+    "duration": 5.208333,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "ascii",
+        "params": {
+          "enabled": true,
+          "columns": 90,
+          "heightScale": 1,
+          "pixelate": 0,
+          "rampPreset": "detailed",
+          "customRamp": "@&B9SGHMh352AXrsi;:,. ",
+          "brightness": 0,
+          "contrast": 32,
+          "gamma": 1.99,
+          "densityBias": 1.76,
+          "inverted": false,
+          "colorMode": "original",
+          "foreground": "#f7f4ed",
+          "background": "#050209",
+          "transparent": false,
+          "marksPaper": false,
+          "glyphWeight": 700,
+          "glyphTrueShape": false,
+          "fontFamily": "JetBrains Mono, SFMono-Regular, Consolas, monospace",
+          "structure": 0.17,
+          "scanline": 0,
+          "colorLift": 0.61,
+          "dotLight": 0.25,
+          "edgeGlow": 0.3,
+          "drift": 0,
+          "driftSpeed": 1,
+          "temporalSmooth": 0,
+          "scatterX": 0,
+          "scatterY": 0,
+          "windAngle": 0,
+          "windForce": 0,
+          "wobble": 0,
+          "wobbleSpeed": 1,
+          "fieldMode": "off",
+          "fieldBlend": "offset",
+          "fieldDrive": 0.35,
+          "fieldScale": 4,
+          "fieldSpeed": 0.6,
+          "fieldGap": 0,
+          "fieldGapStyle": "empty",
+          "cellRotate": 0,
+          "cellFlip": 0,
+          "cellTruchet": 0,
+          "fieldScatter": 0,
+          "cellSettle": 0,
+          "temporalDither": 0,
+          "tonePump": 0,
+          "paletteMarch": 0,
+          "cascade": 0,
+          "fieldPalette": "off",
+          "moves": [],
+          "emissiveGain": 2.75,
+          "cellGlow": 0,
+          "floor": 0.2,
+          "spill": 0,
+          "hotCore": 0,
+          "spaceDetail": 48,
+          "marksInitialized": false,
+          "marksSize": 0.9,
+          "marksLift": 0.25,
+          "marksScatter": 0,
+          "marksMotion": 0,
+          "marksSpeed": 1,
+          "markMaterial": "color",
+          "markIor": 1.45,
+          "markThickness": 0.6,
+          "markFrost": 0.06,
+          "markDispersion": 0.2,
+          "markTint": 0.15,
+          "markGlow": 1
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": true,
+        "threshold": 0.35,
+        "knee": 0.5,
+        "levels": 7,
+        "radius": 1.8,
+        "levelGain": 0.9,
+        "intensity": 1.1,
+        "tints": [
+          [
+            1,
+            0.62,
+            0.22
+          ],
+          [
+            1,
+            0.45,
+            0.15
+          ],
+          [
+            1,
+            0.3,
+            0.1
+          ],
+          [
+            0.9,
+            0.18,
+            0.08
+          ],
+          [
+            0.7,
+            0.1,
+            0.08
+          ],
+          [
+            0.5,
+            0.06,
+            0.1
+          ]
+        ],
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "ascii-ghost-temple",
+    "name": "ASCII Ghost Temple",
+    "duration": 6.6,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "asciiGhost",
+        "params": {
+          "enabled": true,
+          "cell": 65,
+          "charset": "dotted",
+          "rhythm": 0.7,
+          "colorBoost": 0.35,
+          "inkFloor": 0.8,
+          "saturation": 0,
+          "contrast": 1.1,
+          "exposure": 1.5,
+          "text": 0.7,
+          "blend": true,
+          "photo": 0.25,
+          "bloom": 0,
+          "glow": 33,
+          "drift": 0.48,
+          "driftSpeed": 0.6,
+          "fieldMode": "contour",
+          "fieldBlend": "offset",
+          "fieldDrive": 0.5,
+          "fieldScale": 6,
+          "fieldSpeed": 0.35,
+          "fieldGap": 0,
+          "fieldGapStyle": "empty",
+          "cellRotate": 0,
+          "cellFlip": 0,
+          "cellTruchet": 0,
+          "fieldScatter": 0,
+          "cellSettle": 0,
+          "temporalDither": 0,
+          "tonePump": 0,
+          "paletteMarch": 0.6,
+          "cascade": 0,
+          "fieldPalette": "ember",
+          "moves": [],
+          "background": "#000000",
+          "transparent": true,
+          "marksPaper": false,
+          "fontFamily": "JetBrains Mono, Space Mono, ui-monospace, monospace",
+          "emissiveGain": 4.45,
+          "motionPhase": 0.16,
+          "motionRepeats": null
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": true,
+        "threshold": 0.4,
+        "knee": 0.44,
+        "levels": 5,
+        "radius": 0.92,
+        "levelGain": 0.19,
+        "intensity": 0,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": true,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 47,
+        "mirror": false,
+        "length": 0.42,
+        "intensity": 0.5,
+        "tint": [
+          1,
+          0.42,
+          0.92
+        ],
+        "threshold": 0.55,
+        "knee": 0.68,
+        "taps": 22,
+        "falloff": 0.88
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "tonemap": {
+        "enabled": true,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      }
+    }
+  },
+  {
+    "slug": "vhs-01",
+    "name": "VHS 01",
+    "duration": 6,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "vhs",
+        "params": {
+          "enabled": true,
+          "soft": 0.45,
+          "bleed": 0.5,
+          "smear": 0.45,
+          "sharp": 0.6,
+          "rainbow": 0.25,
+          "ghost": 0.1,
+          "wear": 0,
+          "noise": 0.3,
+          "cnoise": 0.45,
+          "drop": 0.25,
+          "jitter": 0.3,
+          "wow": 0.2,
+          "track": 0.12,
+          "head": 0.5,
+          "flag": 0.25,
+          "inter": 0.6,
+          "events": 0.35,
+          "scan": 0.22,
+          "curve": 0.05,
+          "vig": 0.18,
+          "bloom": 0.3,
+          "streak": 0.15,
+          "conv": 0.15,
+          "hum": 0.06,
+          "snow": 0.05,
+          "flick": 0.12,
+          "frame43": false,
+          "fade": 0.45,
+          "sat": 0.85,
+          "hue": 3,
+          "warm": 0.15,
+          "bw": false,
+          "transport": "play",
+          "osdMode": "play",
+          "osdShowDate": true,
+          "osdDate": "DEC 24 1989",
+          "osdTime": "6:32 PM",
+          "osdTitle": "",
+          "osdTitleColor": "#f2f2ee",
+          "osdCounter": true,
+          "brightness": 0,
+          "contrast": 0,
+          "gamma": 1,
+          "moves": [],
+          "emissiveGain": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 0,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {
+              "brightness": "brightness",
+              "contrast": "contrast",
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "brightness": 0,
+              "contrast": 0,
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#15100d",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "house"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "golden-halftones",
+    "name": "Golden Halftones",
+    "duration": 8.266666666666667,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "halftone",
+        "params": {
+          "enabled": true,
+          "dotScale": 1.17,
+          "spacing": 22,
+          "sizeVariation": 1,
+          "angle": 64,
+          "scatterX": 0,
+          "scatterY": 0,
+          "windForce": 0,
+          "windAngle": 0,
+          "wobble": 1.2,
+          "wobbleSpeed": 0.7,
+          "invert": false,
+          "sizeTone": "shadows",
+          "dotLight": 0.37,
+          "animate": false,
+          "animSpeed": 1,
+          "animAmount": 0.5,
+          "edgeGlow": 0.53,
+          "fieldMode": "off",
+          "fieldBlend": "offset",
+          "fieldDrive": 0.35,
+          "fieldScale": 4,
+          "fieldSpeed": 0.6,
+          "fieldGap": 0,
+          "fieldGapStyle": "empty",
+          "cellRotate": 0,
+          "cellFlip": 0,
+          "cellTruchet": 0,
+          "fieldScatter": 0,
+          "cellSettle": 0,
+          "temporalDither": 0,
+          "tonePump": 0,
+          "paletteMarch": 0,
+          "cascade": 0,
+          "fieldPalette": "off",
+          "moves": [],
+          "brightness": 4,
+          "contrast": 18,
+          "gamma": 1.12,
+          "colorMode": "mono",
+          "foreground": "#ffb54d",
+          "background": "#0b0705",
+          "backgroundOpacity": 1,
+          "marksPaper": false,
+          "emissiveGain": 1,
+          "inkGlow": 0
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": true,
+        "threshold": 0,
+        "knee": 0.1,
+        "levels": 4,
+        "radius": 2.58,
+        "levelGain": 0.9,
+        "intensity": 0.36,
+        "tints": [
+          [
+            1,
+            0.62,
+            0.22
+          ],
+          [
+            1,
+            0.45,
+            0.15
+          ],
+          [
+            1,
+            0.3,
+            0.1
+          ],
+          [
+            0.9,
+            0.18,
+            0.08
+          ],
+          [
+            0.7,
+            0.1,
+            0.08
+          ],
+          [
+            0.5,
+            0.06,
+            0.1
+          ]
+        ],
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 130,
+        "mirror": false,
+        "length": 0.42,
+        "intensity": 0.5,
+        "tint": [
+          1,
+          0.42,
+          0.92
+        ],
+        "threshold": 0.55,
+        "knee": 0.5,
+        "taps": 22,
+        "falloff": 0.88
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "tonemap": {
+        "enabled": true,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      }
+    }
+  },
+  {
+    "slug": "neon-text-dither",
+    "name": "Neon Text Dither",
+    "duration": 5.708333,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "dithertext",
+        "params": {
+          "enabled": true,
+          "text": "NOWBOARDINGPLATFORMNINE",
+          "cellSize": 21,
+          "spacing": 0,
+          "ditherPixelSize": 3,
+          "mode": "foreground",
+          "ditherStyle": "bayer2",
+          "textThreshold": 0.59,
+          "brightness": 0,
+          "contrast": 0.4,
+          "gamma": 1,
+          "invert": false,
+          "animate": true,
+          "animSpeed": 1.2,
+          "animAmount": 0.35,
+          "colorMode": "mono",
+          "foreground": "#d8ff3e",
+          "background": "#161616",
+          "transparent": false,
+          "marksPaper": false,
+          "ditherMotionMode": "off",
+          "ditherMotionAmount": 0.65,
+          "ditherMotionSpeed": 0.8,
+          "ditherMotionScale": 4,
+          "ditherMotionAngle": 45,
+          "ditherPatternTravel": 0.65,
+          "ditherThresholdFlow": 0.5,
+          "ditherCellPulse": 0.3,
+          "ditherGrainFlow": 0.25,
+          "ditherLevelShift": 0.25,
+          "fieldMode": "off",
+          "fieldBlend": "offset",
+          "fieldDrive": 0.35,
+          "fieldScale": 4,
+          "fieldSpeed": 0.6,
+          "fieldGap": 0,
+          "fieldGapStyle": "empty",
+          "cellRotate": 0,
+          "cellFlip": 0,
+          "cellTruchet": 0,
+          "fieldScatter": 0,
+          "cellSettle": 0,
+          "temporalDither": 0,
+          "tonePump": 0,
+          "paletteMarch": 0,
+          "cascade": 0,
+          "fieldPalette": "off",
+          "moves": [],
+          "fontFamily": "JetBrains Mono, SFMono-Regular, Consolas, monospace",
+          "emissiveGain": 1.15,
+          "cellGlow": 0,
+          "lookSource": {
+            "brightness": -2,
+            "contrast": 3,
+            "gamma": 1,
+            "saturation": 1.28,
+            "hue": 0,
+            "controls": {
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0.18,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#161616",
+            "glow": 0.3,
+            "glowSize": 6
+          },
+          "lookFrameWidth": 1200,
+          "lookProfile": 1,
+          "lookPreset": "custom"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "retro-matrix",
+    "name": "RETRO MATRIX",
+    "duration": 6,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "retroMatrix",
+        "params": {
+          "enabled": true,
+          "spacing": 17,
+          "dotSpacing": 12,
+          "highlightThresh": 0.6,
+          "ditherThresh": 0.45,
+          "midtoneThresh": 0.3,
+          "shadowThresh": 0.15,
+          "blockHeight": 0.85,
+          "mergeProb": 0.8,
+          "dotGrid": 3,
+          "randOffset": 1.5,
+          "edgeOnly": true,
+          "showHighlight": true,
+          "showTransition": true,
+          "showMidtone": true,
+          "showDot": true,
+          "animate": true,
+          "sway": 3,
+          "pulse": 0.05,
+          "glitch": 0.2,
+          "glowHighlight": true,
+          "glowTransition": false,
+          "glowMidtone": false,
+          "glowDot": true,
+          "loopDuration": 5,
+          "brightness": 0,
+          "contrast": 10,
+          "gamma": 1.05,
+          "foreground": "#42ff70",
+          "background": "#020703",
+          "colorMode": "mono",
+          "backgroundOpacity": 1,
+          "marksPaper": false,
+          "fieldMode": "off",
+          "fieldBlend": "offset",
+          "fieldDrive": 0.35,
+          "fieldScale": 4,
+          "fieldSpeed": 0.6,
+          "fieldGap": 0,
+          "fieldGapStyle": "empty",
+          "cellRotate": 0,
+          "cellFlip": 0,
+          "cellTruchet": 0,
+          "fieldScatter": 0,
+          "cellSettle": 0,
+          "temporalDither": 0,
+          "tonePump": 0,
+          "paletteMarch": 0,
+          "cascade": 0,
+          "fieldPalette": "off",
+          "moves": [],
+          "emissiveGain": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 0,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {
+              "brightness": "brightness",
+              "contrast": "contrast",
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "brightness": 0,
+              "contrast": 0,
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#0a0a0c",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "2",
+          "motionRepeats": null
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "dither-text-01",
+    "name": "Dither Text 01",
+    "duration": 6,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "dithertext",
+        "params": {
+          "enabled": true,
+          "text": "NOWBOARDINGPLATFORMNINE",
+          "cellSize": 29,
+          "spacing": 0,
+          "ditherPixelSize": 3,
+          "mode": "foreground",
+          "ditherStyle": "bayer4",
+          "textThreshold": 0.57,
+          "brightness": 0,
+          "contrast": 0.45,
+          "gamma": 1,
+          "invert": false,
+          "animate": true,
+          "animSpeed": 1.2,
+          "animAmount": 0.35,
+          "colorMode": "mono",
+          "foreground": "#f2f2f2",
+          "background": "#0c0c0c",
+          "transparent": false,
+          "marksPaper": false,
+          "ditherMotionMode": "off",
+          "ditherMotionAmount": 0.65,
+          "ditherMotionSpeed": 0.8,
+          "ditherMotionScale": 4,
+          "ditherMotionAngle": 45,
+          "ditherPatternTravel": 0.65,
+          "ditherThresholdFlow": 0.5,
+          "ditherCellPulse": 0.3,
+          "ditherGrainFlow": 0.25,
+          "ditherLevelShift": 0.25,
+          "fieldMode": "off",
+          "fieldBlend": "offset",
+          "fieldDrive": 0.35,
+          "fieldScale": 4,
+          "fieldSpeed": 0.6,
+          "fieldGap": 0,
+          "fieldGapStyle": "empty",
+          "cellRotate": 0,
+          "cellFlip": 0,
+          "cellTruchet": 0,
+          "fieldScatter": 0,
+          "cellSettle": 0,
+          "temporalDither": 0,
+          "tonePump": 0,
+          "paletteMarch": 0,
+          "cascade": 0,
+          "fieldPalette": "off",
+          "moves": [],
+          "fontFamily": "JetBrains Mono, SFMono-Regular, Consolas, monospace",
+          "emissiveGain": 1,
+          "cellGlow": 0,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 16,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#0c0c0c",
+            "glow": 0.45,
+            "glowSize": 13
+          },
+          "lookFrameWidth": 1200,
+          "lookProfile": 1,
+          "lookPreset": "custom"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": true,
+        "threshold": 0.5,
+        "knee": 0.55,
+        "levels": 6,
+        "radius": 1.4,
+        "levelGain": 0.85,
+        "intensity": 0.6,
+        "tints": [
+          [
+            1,
+            0.22,
+            0.8
+          ],
+          [
+            0.95,
+            0.25,
+            0.95
+          ],
+          [
+            0.7,
+            0.3,
+            1
+          ],
+          [
+            0.45,
+            0.45,
+            1
+          ],
+          [
+            0.3,
+            0.55,
+            1
+          ],
+          [
+            0.2,
+            0.6,
+            1
+          ]
+        ],
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "game-boy",
+    "name": "Game Boy",
+    "duration": 6,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "dither",
+        "params": {
+          "enabled": true,
+          "pattern": "bayer4",
+          "scale": 14,
+          "levels": 4,
+          "intensity": 1,
+          "noise": 0,
+          "invert": false,
+          "gap": 0,
+          "edgeGlow": 0,
+          "animate": false,
+          "animSpeed": 1,
+          "animAmount": 0.5,
+          "scatterX": 0,
+          "scatterY": 0,
+          "windAngle": 0,
+          "windForce": 0,
+          "wobble": 0,
+          "wobbleSpeed": 1,
+          "ditherMotionMode": "off",
+          "ditherMotionAmount": 0.65,
+          "ditherMotionSpeed": 0.8,
+          "ditherMotionScale": 4,
+          "ditherMotionAngle": 45,
+          "ditherPatternTravel": 0.65,
+          "ditherThresholdFlow": 0.5,
+          "ditherCellPulse": 0.3,
+          "ditherGrainFlow": 0.25,
+          "ditherLevelShift": 0.25,
+          "moves": [],
+          "brightness": 0,
+          "contrast": 14,
+          "gamma": 1,
+          "colorMode": "mono",
+          "foreground": "#0f380f",
+          "background": "#9bbc0f",
+          "backgroundOpacity": 1,
+          "emissiveGain": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 20,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {
+              "brightness": "brightness",
+              "contrast": "contrast",
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "brightness": 0,
+              "contrast": 0,
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#9bbc0f",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "4"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.35,
+        "knee": 0.5,
+        "levels": 7,
+        "radius": 1.8,
+        "levelGain": 0.9,
+        "intensity": 1.1,
+        "tints": [
+          [
+            1,
+            0.62,
+            0.22
+          ],
+          [
+            1,
+            0.45,
+            0.15
+          ],
+          [
+            1,
+            0.3,
+            0.1
+          ],
+          [
+            0.9,
+            0.18,
+            0.08
+          ],
+          [
+            0.7,
+            0.1,
+            0.08
+          ],
+          [
+            0.5,
+            0.06,
+            0.1
+          ]
+        ],
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "pixel-code",
+    "name": "Pixel Code",
+    "duration": 5.208333,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "pixelCode",
+        "params": {
+          "enabled": true,
+          "cellSize": 30,
+          "opacityMin": 0,
+          "opacityMax": 0.68,
+          "blockVariety": 0.18,
+          "blockFlow": 2.2,
+          "charSet": "matrix",
+          "customChars": "0X8SG>",
+          "charBrightness": 0.95,
+          "accentA": "#7adfff",
+          "accentB": "#ff7a4a",
+          "accentC": "#ffffff",
+          "dividerThickness": 0,
+          "dividerColor": "#aebfde",
+          "dividerOpacity": 0.14,
+          "bgPatternSize": 32,
+          "bgPatternOpacity": 0.66,
+          "glowStrength": 0.83,
+          "glowColor": "#9beeff",
+          "animate": true,
+          "speed": 1.36,
+          "flickerRate": 4.9,
+          "maskMode": "subject",
+          "maskThreshold": 0.02,
+          "maskInvert": false,
+          "brightness": 29,
+          "contrast": 100,
+          "gamma": 0.55,
+          "foreground": "#ffffff",
+          "background": "#0a1c30",
+          "colorMode": "original",
+          "transparent": false,
+          "marksPaper": false,
+          "fieldMode": "off",
+          "fieldBlend": "offset",
+          "fieldDrive": 0.35,
+          "fieldScale": 4,
+          "fieldSpeed": 0.6,
+          "fieldGap": 0,
+          "fieldGapStyle": "empty",
+          "cellRotate": 0,
+          "cellFlip": 0,
+          "cellTruchet": 0,
+          "fieldScatter": 0,
+          "cellSettle": 0,
+          "temporalDither": 0,
+          "tonePump": 0,
+          "paletteMarch": 0,
+          "cascade": 0,
+          "fieldPalette": "off",
+          "moves": [],
+          "emissiveGain": 2.05,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 12,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {
+              "brightness": "brightness",
+              "contrast": "contrast",
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "brightness": 0,
+              "contrast": 0,
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#0a1c30",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "house"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": true,
+        "threshold": 1.74,
+        "knee": 0.5,
+        "levels": 7,
+        "radius": 1.8,
+        "levelGain": 0.9,
+        "intensity": 1.1,
+        "tints": [
+          [
+            1,
+            0.62,
+            0.22
+          ],
+          [
+            1,
+            0.45,
+            0.15
+          ],
+          [
+            1,
+            0.3,
+            0.1
+          ],
+          [
+            0.9,
+            0.18,
+            0.08
+          ],
+          [
+            0.7,
+            0.1,
+            0.08
+          ],
+          [
+            0.5,
+            0.06,
+            0.1
+          ]
+        ],
+        "hue": -99
+      },
+      "streaks": {
+        "enabled": true,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "pixel-dither-g0",
+    "name": "Pixel Dither G0",
+    "duration": 6,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "pixelDither",
+        "params": {
+          "enabled": true,
+          "blockSize": 30,
+          "thresholdCore": 0.84,
+          "thresholdMid": 0.59,
+          "thresholdLight": 0.35,
+          "thresholdMicro": 0.2,
+          "colorTheme": "mono",
+          "foregroundColor": "#d8ff3e",
+          "backgroundColor": "#161616",
+          "invert": false,
+          "edgeGlow": 0.37,
+          "boil": 0,
+          "boilSpeed": 1,
+          "scatterX": 0,
+          "scatterY": 0,
+          "windAngle": 0,
+          "windForce": 0,
+          "wobble": 0,
+          "wobbleSpeed": 1,
+          "fieldMode": "off",
+          "fieldBlend": "offset",
+          "fieldDrive": 0.35,
+          "fieldScale": 4,
+          "fieldSpeed": 0.6,
+          "fieldGap": 0,
+          "fieldGapStyle": "empty",
+          "cellRotate": 0,
+          "cellFlip": 0,
+          "cellTruchet": 0,
+          "fieldScatter": 0,
+          "cellSettle": 0,
+          "temporalDither": 0,
+          "tonePump": 0,
+          "paletteMarch": 0,
+          "cascade": 0,
+          "fieldPalette": "off",
+          "moves": [],
+          "brightness": 12,
+          "contrast": 40,
+          "gamma": 1,
+          "backgroundOpacity": 1,
+          "marksPaper": false,
+          "emissiveGain": 1
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": true,
+        "threshold": 0.79,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "tag-pill",
+    "name": "Tag Pill",
+    "duration": 7,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "capsuleCloud",
+        "params": {
+          "enabled": true,
+          "presetName": "korean",
+          "tagsText": "공간이자 문래동의 마지막 쓰임이자, 제조업으로서의 기술생태계와 커뮤니티, 시공간에서의 마지막 쓰임이자, 공간, 문래동, 에피소드, 활동, 전시공간, 상징, 제조업, 기획, 기록, ?, !, ■, ●, , MOTH, SLEEPY, KICKS, FAST, NOW, A, B, O",
+          "wordOrder": "shuffle",
+          "fontStyle": "monospace",
+          "capsuleHeight": 35,
+          "borderRadius": 10,
+          "capsuleGap": 7,
+          "rowGap": 6,
+          "shadowStrength": 1,
+          "glass": 0.85,
+          "backdrop": "color",
+          "subjectOnly": false,
+          "animated": true,
+          "speed": 1.6,
+          "animAmount": 0,
+          "colorTheme": "vibrant",
+          "colorMode": "vibrant",
+          "colorFollow": 0,
+          "saturation": 1.75,
+          "customColor1": "#ff3366",
+          "customColor2": "#00f0ff",
+          "customColor3": "#ff9900",
+          "customColor4": "#39ff14",
+          "customColor5": "#ffee00",
+          "minLuminance": 0.14,
+          "maxLuminance": 0.93,
+          "midtoneFilter": 0,
+          "fieldMode": "off",
+          "fieldBlend": "offset",
+          "fieldDrive": 0.35,
+          "fieldScale": 4,
+          "fieldSpeed": 0.6,
+          "fieldGap": 0,
+          "fieldGapStyle": "empty",
+          "cellRotate": 0,
+          "cellFlip": 0,
+          "cellTruchet": 0,
+          "fieldScatter": 0,
+          "cellSettle": 0,
+          "temporalDither": 0,
+          "tonePump": 0,
+          "paletteMarch": 0,
+          "cascade": 0,
+          "fieldPalette": "off",
+          "background": "#161616",
+          "transparent": false,
+          "moves": [],
+          "emissiveGain": 1
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "riso-01",
+    "name": "RISO 01",
+    "duration": 5.208333,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "riso",
+        "params": {
+          "enabled": true,
+          "dotSpacing": 12,
+          "splitThreshold": 0.48,
+          "ink1Color": "#ff453a",
+          "ink2Color": "#1d4ed8",
+          "paperColor": "#f4f0e6",
+          "ink1Angle": 15,
+          "ink2Angle": 75,
+          "bleed": 0.65,
+          "driftX": 8,
+          "driftY": 13.5,
+          "paperTexture": 0.7,
+          "ditherMode": "halftone",
+          "separationMode": "rgb",
+          "inkOverlapMode": "translucent",
+          "invert": false,
+          "maskMode": "none",
+          "maskThreshold": 0.15,
+          "maskSoftness": 0,
+          "maskInvert": false,
+          "background": "#05130a",
+          "animate": false,
+          "animSpeed": 1,
+          "animAmount": 0.5,
+          "fieldMode": "off",
+          "fieldBlend": "offset",
+          "fieldDrive": 0.35,
+          "fieldScale": 4,
+          "fieldSpeed": 0.6,
+          "fieldGap": 0,
+          "fieldGapStyle": "empty",
+          "cellRotate": 0,
+          "cellFlip": 0,
+          "cellTruchet": 0,
+          "fieldScatter": 0,
+          "cellSettle": 0,
+          "temporalDither": 0,
+          "tonePump": 0,
+          "paletteMarch": 0,
+          "cascade": 0,
+          "fieldPalette": "off",
+          "moves": [],
+          "brightness": 0,
+          "contrast": 0,
+          "gamma": 1,
+          "backgroundOpacity": 1,
+          "emissiveGain": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 0,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {
+              "brightness": "brightness",
+              "contrast": "contrast",
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "brightness": 0,
+              "contrast": 0,
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#ffffff",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "custom"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "the-trace",
+    "name": "The Trace",
+    "duration": 6,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "brandGenerator",
+        "params": {
+          "topRightText": "Alan Ayoubi",
+          "bottomLeftText": "theladybug.app",
+          "bottomRightText": "Amsterdam",
+          "enabled": true,
+          "detectionMode": "bright",
+          "blockSize": 8,
+          "maxCircles": 50,
+          "minDistance": 82,
+          "threshold": 30,
+          "colorTheme": "original",
+          "colorMix": 0.45,
+          "accentColor": "#ffffff",
+          "showBackground": true,
+          "bgBrightness": 0.85,
+          "connectionMaxDistance": 265,
+          "connectionWeight": 0.6,
+          "shapeType": "circle",
+          "minRadius": 5,
+          "maxRadius": 24,
+          "strokeWidth": 1.1,
+          "sizeSeed": 251,
+          "labelSize": 11,
+          "overlayOpacity": 0.98,
+          "chainOn": true,
+          "chainOrigin": "center",
+          "chainCount": 22,
+          "chainAngle": 190,
+          "chainBaseRadius": 290,
+          "chainSizeRatio": 0.8,
+          "chainIntersections": true,
+          "chainMarkerSize": 3,
+          "showGrid": true,
+          "showCrosshair": true,
+          "showText": false,
+          "showConstellation": false,
+          "topLeftText": "Design & Strategy",
+          "moves": [],
+          "brightness": -2,
+          "contrast": 6,
+          "gamma": 1,
+          "foreground": "#39ff6a",
+          "background": "#05130a",
+          "transparent": false,
+          "emissiveGain": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 0,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {
+              "brightness": "brightness",
+              "contrast": "contrast",
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "brightness": 0,
+              "contrast": 0,
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#161616",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "custom"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      },
+      {
+        "type": "kineticTrace",
+        "params": {
+          "enabled": true,
+          "preset": "custom",
+          "motionPreset": "direction",
+          "texturePreset": "halftoneBloom",
+          "mode": "direction",
+          "memory": "fade",
+          "style": "silver",
+          "background": "black",
+          "material": "smooth",
+          "inkColor": "#d8ff3e",
+          "paperColor": "#161616",
+          "fineMotion": 72,
+          "mediumMotion": 90,
+          "broadMotion": 45,
+          "sensitivity": 73,
+          "noiseReject": 62,
+          "body": 24,
+          "gain": 55,
+          "geometry": 22,
+          "trail": 1100,
+          "echoGap": 5,
+          "ageColor": 18,
+          "materialScale": 15.2,
+          "materialFill": 115,
+          "feedback": 4,
+          "feedbackZoom": 2,
+          "feedbackSpin": 0,
+          "maskMode": "exclude",
+          "brushSize": 12,
+          "maskRevision": 0,
+          "resetToken": 0,
+          "moves": [],
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 0,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {},
+            "neutral": {}
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#000000",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "custom"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      },
+      {
+        "type": "crtScreen",
+        "params": {
+          "enabled": true,
+          "curvature": 0.8,
+          "zoom": 1,
+          "aberration": 3,
+          "edgeBlur": 0.55,
+          "vignette": 0.34,
+          "gridSize": 4.135,
+          "gridStrength": 0.29,
+          "subpixel": 1,
+          "reflection": 0.93,
+          "windowStyle": "wide",
+          "windowSize": 1,
+          "streaks": 0.85,
+          "tint": 0.52,
+          "lift": 0.457,
+          "bloom": 0.35,
+          "grime": 0.25,
+          "tintColor": "#e4fff6",
+          "brightness": 0,
+          "contrast": 6,
+          "gamma": 1,
+          "moves": [],
+          "emissiveGain": 1,
+          "drift": 0,
+          "driftSpeed": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 6,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {
+              "brightness": "brightness",
+              "contrast": "contrast",
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "brightness": 0,
+              "contrast": 0,
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#101312",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "house"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "lighten",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": true,
+        "threshold": 0,
+        "knee": 0.5,
+        "levels": 7,
+        "radius": 1.8,
+        "levelGain": 0.9,
+        "intensity": 1.1,
+        "tints": [
+          [
+            1,
+            0.62,
+            0.22
+          ],
+          [
+            1,
+            0.45,
+            0.15
+          ],
+          [
+            1,
+            0.3,
+            0.1
+          ],
+          [
+            0.9,
+            0.18,
+            0.08
+          ],
+          [
+            0.7,
+            0.1,
+            0.08
+          ],
+          [
+            0.5,
+            0.06,
+            0.1
+          ]
+        ],
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": true,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 18,
+        "mirror": false,
+        "length": 0.42,
+        "intensity": 0.5,
+        "tint": [
+          1,
+          0.42,
+          0.92
+        ],
+        "threshold": 0.26,
+        "knee": 0.36,
+        "taps": 24,
+        "falloff": 0.88
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "counter-vhs",
+    "name": "Counter VHS",
+    "duration": 5.208333,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "vhs",
+        "params": {
+          "enabled": true,
+          "soft": 0.45,
+          "bleed": 0.5,
+          "smear": 0.45,
+          "sharp": 0.6,
+          "rainbow": 0.25,
+          "ghost": 0.1,
+          "wear": 0,
+          "noise": 0.3,
+          "cnoise": 0.45,
+          "drop": 0.25,
+          "jitter": 0.3,
+          "wow": 0.2,
+          "track": 0.12,
+          "head": 0.5,
+          "flag": 0.25,
+          "inter": 0.6,
+          "events": 0.35,
+          "scan": 0.22,
+          "curve": 0.05,
+          "vig": 0.18,
+          "bloom": 0.3,
+          "streak": 0.15,
+          "conv": 0.15,
+          "hum": 0.06,
+          "snow": 0.05,
+          "flick": 0.12,
+          "frame43": false,
+          "fade": 0.45,
+          "sat": 0.85,
+          "hue": 3,
+          "warm": 0.15,
+          "bw": false,
+          "transport": "play",
+          "osdMode": "off",
+          "osdShowDate": true,
+          "osdDate": "DEC 24 1989",
+          "osdTime": "6:32 PM",
+          "osdTitle": "",
+          "osdTitleColor": "#f2f2ee",
+          "osdCounter": true,
+          "brightness": 0,
+          "contrast": 0,
+          "gamma": 1,
+          "moves": [],
+          "emissiveGain": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 0,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {
+              "brightness": "brightness",
+              "contrast": "contrast",
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "brightness": 0,
+              "contrast": 0,
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#15100d",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "house"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "add",
+          "appears": "shadows",
+          "softness": 0.54
+        }
+      },
+      {
+        "type": "contour",
+        "params": {
+          "enabled": true,
+          "levels": 7,
+          "lineWidth": 0.7,
+          "lineSmoothing": 2.3,
+          "filled": false,
+          "invert": false,
+          "drift": 0,
+          "driftSpeed": 1,
+          "fieldMode": "off",
+          "fieldBlend": "offset",
+          "fieldDrive": 0.35,
+          "fieldScale": 4,
+          "fieldSpeed": 0.6,
+          "fieldGap": 0,
+          "fieldGapStyle": "empty",
+          "cellRotate": 0,
+          "cellFlip": 0,
+          "cellTruchet": 0,
+          "fieldScatter": 0,
+          "cellSettle": 0,
+          "temporalDither": 0,
+          "tonePump": 0,
+          "paletteMarch": 0,
+          "cascade": 0,
+          "fieldPalette": "off",
+          "moves": [],
+          "brightness": 6,
+          "contrast": -8,
+          "gamma": 0.51,
+          "colorMode": "mono",
+          "foreground": "#5b4632",
+          "background": "#e9dcc3",
+          "backgroundOpacity": 1,
+          "emissiveGain": 1,
+          "lookSource": {
+            "brightness": 6,
+            "contrast": -8,
+            "gamma": 0.51,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {
+              "brightness": "brightness",
+              "contrast": "contrast",
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "brightness": 0,
+              "contrast": 0,
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#fbf8ef",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "custom"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "multiply",
+          "appears": "all",
+          "softness": 0.25
+        }
+      },
+      {
+        "type": "contourMap",
+        "params": {
+          "enabled": true,
+          "detail": 5,
+          "smooth": 7,
+          "bands": 9,
+          "multi": 2,
+          "tight": 4.5,
+          "lineWidth": 2.2,
+          "lineAlpha": 0.75,
+          "charset": "arrows",
+          "glyphSize": 13.75,
+          "spacing": 16,
+          "boxes": 0.25,
+          "boxSize": 0.9,
+          "labels": 0.15,
+          "ticks": 0.5,
+          "glow": 0.6,
+          "heroes": 0.85,
+          "accent": "#ef282d",
+          "seed": 91,
+          "drift": 0,
+          "driftSpeed": 1,
+          "moves": [],
+          "foreground": "#c9c7c0",
+          "background": "#1c1c1e",
+          "backgroundOpacity": 1,
+          "emissiveGain": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 0,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {},
+            "neutral": {}
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#1c1c1e",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "custom"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "add",
+          "appears": "all",
+          "softness": 0.25
+        }
+      },
+      {
+        "type": "crtScreen",
+        "params": {
+          "enabled": true,
+          "curvature": 0.2,
+          "zoom": 1,
+          "aberration": 1.38,
+          "edgeBlur": 0.25,
+          "vignette": 0.18,
+          "gridSize": 1,
+          "gridStrength": 0.28,
+          "subpixel": 0.1,
+          "reflection": 0.45,
+          "windowStyle": "wide",
+          "windowSize": 1,
+          "streaks": 0.3,
+          "tint": 0.4,
+          "lift": 0.3,
+          "bloom": 0.2,
+          "grime": 0.25,
+          "tintColor": "#e4fff6",
+          "brightness": 0,
+          "contrast": 6,
+          "gamma": 1,
+          "moves": [],
+          "emissiveGain": 1,
+          "drift": 0,
+          "driftSpeed": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 6,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {
+              "brightness": "brightness",
+              "contrast": "contrast",
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "brightness": 0,
+              "contrast": 0,
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#101312",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "4"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": true,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "counter-01",
+    "name": "Counter 01",
+    "duration": 5.208333,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "contourMap",
+        "params": {
+          "enabled": true,
+          "detail": 10,
+          "smooth": 1,
+          "bands": 10,
+          "multi": 2,
+          "tight": 0.9,
+          "lineWidth": 1.5,
+          "lineAlpha": 0.9,
+          "charset": "binary",
+          "glyphSize": 21,
+          "spacing": 5.5,
+          "boxes": 0.3,
+          "boxSize": 0.95,
+          "labels": 0.25,
+          "ticks": 0.45,
+          "glow": 0.45,
+          "heroes": 0.55,
+          "accent": "#ef282d",
+          "seed": 63,
+          "drift": 0,
+          "driftSpeed": 1,
+          "moves": [],
+          "foreground": "#c9c7c0",
+          "background": "#1c1c1e",
+          "backgroundOpacity": 1,
+          "emissiveGain": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 0,
+            "gamma": 1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {},
+            "neutral": {}
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#1c1c1e",
+            "glow": 0,
+            "glowSize": 8
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "custom"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 273,
+        "mirror": false,
+        "length": 0.42,
+        "intensity": 0.5,
+        "tint": [
+          1,
+          0.42,
+          0.92
+        ],
+        "threshold": 0.55,
+        "knee": 0.5,
+        "taps": 22,
+        "falloff": 0.88
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": true,
+        "threshold": 0,
+        "knee": 0.5,
+        "levels": 7,
+        "radius": 1.8,
+        "levelGain": 0.9,
+        "intensity": 1.1,
+        "tints": [
+          [
+            1,
+            0.62,
+            0.22
+          ],
+          [
+            1,
+            0.45,
+            0.15
+          ],
+          [
+            1,
+            0.3,
+            0.1
+          ],
+          [
+            0.9,
+            0.18,
+            0.08
+          ],
+          [
+            0.7,
+            0.1,
+            0.08
+          ],
+          [
+            0.5,
+            0.06,
+            0.1
+          ]
+        ],
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": true,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 17,
+        "mirror": false,
+        "length": 0.2,
+        "intensity": 0.9,
+        "tint": [
+          1,
+          0.42,
+          0.92
+        ],
+        "threshold": 1.32,
+        "knee": 0.45,
+        "taps": 21,
+        "falloff": 0.99
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": true,
+        "exposure": -0.2,
+        "lift": 0,
+        "contrast": 1.05,
+        "saturation": 1.1
+      }
+    }
+  },
+  {
+    "slug": "dither-text-b",
+    "name": "Dither Text B",
+    "duration": 5.208333,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "dithertext",
+        "params": {
+          "enabled": true,
+          "text": "NOWBOARDINGPLATFORMNINE",
+          "cellSize": 31,
+          "spacing": 0,
+          "ditherPixelSize": 5,
+          "mode": "background",
+          "ditherStyle": "bayer8",
+          "textThreshold": 0.45,
+          "brightness": 0,
+          "contrast": 0.15,
+          "gamma": 1,
+          "invert": false,
+          "animate": true,
+          "animSpeed": 1.2,
+          "animAmount": 0.35,
+          "colorMode": "mono",
+          "foreground": "#f2e6c2",
+          "background": "#161310",
+          "transparent": false,
+          "marksPaper": false,
+          "ditherMotionMode": "off",
+          "ditherMotionAmount": 0.65,
+          "ditherMotionSpeed": 0.8,
+          "ditherMotionScale": 4,
+          "ditherMotionAngle": 45,
+          "ditherPatternTravel": 0.65,
+          "ditherThresholdFlow": 0.5,
+          "ditherCellPulse": 0.3,
+          "ditherGrainFlow": 0.25,
+          "ditherLevelShift": 0.25,
+          "fieldMode": "off",
+          "fieldBlend": "offset",
+          "fieldDrive": 0.35,
+          "fieldScale": 4,
+          "fieldSpeed": 0.6,
+          "fieldGap": 0,
+          "fieldGapStyle": "empty",
+          "cellRotate": 0,
+          "cellFlip": 0,
+          "cellTruchet": 0,
+          "fieldScatter": 0,
+          "cellSettle": 0,
+          "temporalDither": 0,
+          "tonePump": 0,
+          "paletteMarch": 0,
+          "cascade": 0,
+          "fieldPalette": "off",
+          "moves": [],
+          "fontFamily": "JetBrains Mono, SFMono-Regular, Consolas, monospace",
+          "emissiveGain": 1,
+          "cellGlow": 0,
+          "lookSource": {
+            "brightness": -11,
+            "contrast": -2,
+            "gamma": 1,
+            "saturation": 1.37,
+            "hue": 0,
+            "controls": {
+              "gamma": "gamma"
+            },
+            "neutral": {
+              "gamma": 1
+            }
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#161310",
+            "glow": 0,
+            "glowSize": 6
+          },
+          "lookFrameWidth": 1200,
+          "lookProfile": 1,
+          "lookPreset": "custom"
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  },
+  {
+    "slug": "data-hatching-01",
+    "name": "Data Hatching 01",
+    "duration": 5.208333,
+    "fps": 30,
+    "fx": [
+      {
+        "type": "dataHatch",
+        "params": {
+          "enabled": true,
+          "preset": "cyberneticHand",
+          "accentColor": "#ffffff",
+          "gridSize": 21,
+          "stripeHeight": 0.8,
+          "hatchChar": "+",
+          "showHudAxis": false,
+          "hudOffset": 0.5,
+          "colorTheme": "monochrome",
+          "barColorLight": "#bcbcbc",
+          "barColorMedium": "#787878",
+          "barColorDark": "#343434",
+          "bgColor": "#161616",
+          "drift": 0,
+          "driftSpeed": 2,
+          "glow": 0.5,
+          "glowSize": 10,
+          "fieldMode": "off",
+          "fieldBlend": "offset",
+          "fieldDrive": 0.52,
+          "fieldScale": 4,
+          "fieldSpeed": 0.6,
+          "fieldGap": 0,
+          "fieldGapStyle": "empty",
+          "cellRotate": 0,
+          "cellFlip": 0,
+          "cellTruchet": 0,
+          "fieldScatter": 0,
+          "cellSettle": 0,
+          "temporalDither": 0,
+          "tonePump": 0,
+          "paletteMarch": 0,
+          "cascade": 0,
+          "fieldPalette": "off",
+          "moves": [],
+          "transparent": false,
+          "marksPaper": false,
+          "emissiveGain": 1,
+          "lookSource": {
+            "brightness": 0,
+            "contrast": 22,
+            "gamma": 1.1,
+            "saturation": 1,
+            "hue": 0,
+            "controls": {},
+            "neutral": {}
+          },
+          "lookFinish": {
+            "noiseAmount": 0,
+            "noiseSize": 1,
+            "paperTexture": 0,
+            "background": "#000000",
+            "glow": 0,
+            "glowSize": 10
+          },
+          "lookFrameWidth": 1200,
+          "lookPreset": "custom",
+          "motionPhase": 0.1
+        },
+        "mix": {
+          "opacity": 1,
+          "blend": "normal",
+          "appears": "all",
+          "softness": 0.25
+        }
+      }
+    ],
+    "finish": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      }
+    },
+    "tracks": [],
+    "post": {
+      "bloom": {
+        "enabled": false,
+        "threshold": 0.4,
+        "knee": 0.5,
+        "levels": 5,
+        "radius": 1,
+        "levelGain": 0.8,
+        "intensity": 0.6,
+        "tints": null,
+        "hue": 0
+      },
+      "streaks": {
+        "enabled": false,
+        "mode": "line",
+        "follow": true,
+        "spatial": false,
+        "elevation": 0,
+        "roll": 0,
+        "depth": 0,
+        "spill": 1,
+        "reflect": true,
+        "volume": 0.35,
+        "angle": 0,
+        "mirror": false,
+        "length": 0.35,
+        "intensity": 0.9,
+        "tint": [
+          0.55,
+          0.68,
+          1
+        ],
+        "threshold": 0.4,
+        "knee": 0.5,
+        "taps": 12,
+        "falloff": 0.86
+      },
+      "trails": {
+        "enabled": false,
+        "decay": 0.85,
+        "blend": 1
+      },
+      "cellular": {
+        "enabled": false,
+        "cellSize": 12,
+        "shape": "auto",
+        "coverage": 0.82,
+        "gutter": 0.1,
+        "coreGain": 1.8,
+        "mix": 1
+      },
+      "paper": {
+        "enabled": false,
+        "paperTexture": 0,
+        "noiseAmount": 0,
+        "noiseSize": 1
+      },
+      "tonemap": {
+        "enabled": false,
+        "exposure": 0,
+        "lift": 0,
+        "contrast": 1,
+        "saturation": 1
+      }
+    }
+  }
+]

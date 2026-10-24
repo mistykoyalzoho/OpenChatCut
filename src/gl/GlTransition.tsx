@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { AbsoluteFill, Img, OffthreadVideo, Video, continueRender, delayRender, getRemotionEnvironment, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Img, OffthreadVideo, Video, cancelRender, continueRender, delayRender, getRemotionEnvironment, useCurrentFrame, useVideoConfig } from 'remotion';
 import { Video as MediaVideo } from '@remotion/media';
 import { createGlRuntime, type GlRuntime } from './runtime';
 import { cubeSettled, ensureCube } from './fx/cube';
@@ -195,7 +195,7 @@ export function GlTransition({ type, direction, L, windowStart, outgoing, incomi
     const handle = rendering ? delayRender(`gl-transition ${type} f${frame}`) : null;
     let done = false;
     let raf = 0;
-    const report = (phase: 'waiting' | 'ready' | 'fallback', fallbackReason?: SelectedPreviewFallbackReason) => {
+    const report = (phase: 'waiting' | 'ready' | 'fallback', fallbackReason?: SelectedPreviewFallbackReason, fallbackDetail?: string) => {
       onReadyChange?.(phase === 'ready');
       if (!previewTargetId || !onPreviewStatus) return;
       onPreviewStatus({
@@ -204,6 +204,7 @@ export function GlTransition({ type, direction, L, windowStart, outgoing, incomi
         adapter: phase === 'ready' ? 'gl-transition' : 'css-transition',
         phase,
         fallbackReason,
+        fallbackDetail,
       });
     };
     const finish = () => {
@@ -219,6 +220,19 @@ export function GlTransition({ type, direction, L, windowStart, outgoing, incomi
         setHasRenderedFrame(false);
       }
     };
+    const temporalEffects = [...outgoingEffects, ...incomingEffects]
+      .filter(({ def: effect }) => effect.requiresHistory)
+      .map(({ def: effect }) => effect.name);
+    if (temporalEffects.length > 0) {
+      const names = [...new Set(temporalEffects)].join(', ');
+      const message = `Temporal GL effect${temporalEffects.length > 1 ? 's' : ''} ${names} cannot be rendered across a transition yet`;
+      hideCanvas();
+      report('fallback', 'history-transition-unsupported', names);
+      console.warn(`[gl-transition] ${message}; using CSS preview`);
+      if (rendering) cancelRender(new Error(message));
+      finish();
+      return () => finish();
+    }
     const priorFailure = failedAdapterRef.current?.definitionKey === definitionKey
       ? failedAdapterRef.current.reason
       : null;
@@ -311,6 +325,10 @@ export function GlTransition({ type, direction, L, windowStart, outgoing, incomi
           transitionFrame.progress,
           transitionFrame.uniforms,
           { outgoing: outgoingOpacity, incoming: incomingOpacity },
+          {
+            outgoing: JSON.stringify([outgoing.id, outgoing.src, outgoingEffects.map(({ fx, def: effect }) => [effect.id, effect.frag, fx.overrides])]),
+            incoming: JSON.stringify([incoming.id, incoming.src, incomingEffects.map(({ fx, def: effect }) => [effect.id, effect.frag, fx.overrides])]),
+          },
         );
         canvas.style.opacity = '1';
         if (!hasRenderedFrameRef.current) {
