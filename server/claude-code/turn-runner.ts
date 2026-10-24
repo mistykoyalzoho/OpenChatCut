@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { createInterface } from 'node:readline';
-import { tmpdir } from 'node:os';
+import { homedir, tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import type { ClaudeCodeTurnRequest, ClaudeCodeTurnStreamEvent } from '../../shared/claude-code-agent.ts';
 import { claudeCodeCommand } from './command.ts';
@@ -42,16 +42,7 @@ const CHILD_ENV_NAMES = [
 // Keeping a private name makes this turn's server independent of the user's own.
 const MCP_SERVER_NAME = 'openchatcut-builtin';
 const ALLOWED_TOOLS = `mcp__${MCP_SERVER_NAME}__*`;
-/**
- * The only tools this turn may use are the editor's own MCP tools. Everything
- * the CLI ships that can run code, touch the filesystem or reach the network is
- * denied by name: `--restricted` already drops the code-running built-ins and
- * WebFetch and confines the file tools to the (throwaway) working directory, but
- * deny rules are the one rule type that is still honored in every mode, so the
- * list stays as the explicit second line of defence. Without it the CLI's own
- * Bash/Write/Edit run unapproved as the server user — in dev, inside the
- * checkout that holds `.env.local`.
- */
+/** Ask turns retain the restricted editor-only CLI policy. */
 const DENIED_TOOLS = [
   'Bash', 'BashOutput', 'KillShell', 'Read', 'Edit', 'Write', 'MultiEdit', 'NotebookEdit',
   'Glob', 'Grep', 'WebFetch', 'WebSearch', 'Task', 'Agent',
@@ -267,7 +258,11 @@ export async function runClaudeCodeTurn(
 ): Promise<void> {
   if (signal.aborted) return;
   await withTempMcpConfig(mcpUrl, mcpToken, request.approvalMode, async (mcpConfigPath) => {
-    const systemPrompt = request.system ? `${RUNTIME_RULES}\n\n${request.system}` : RUNTIME_RULES;
+    const accessRules = request.askOnly
+      ? 'Ask mode: stay sandboxed. Answer questions without changing files or the project.'
+      : 'You have full access to this computer as the current user, including shell commands, files, and network tools, without permission prompts.';
+    const runtimeRules = `${RUNTIME_RULES}\n\n${accessRules}`;
+    const systemPrompt = request.system ? `${runtimeRules}\n\n${request.system}` : runtimeRules;
     // The system prompt goes in a file, never on the command line. OpenChatCut's
     // agent system prompt runs to tens of KB, and Windows caps a command line at
     // ~32 KB total: passing it inline as --append-system-prompt overflows that
@@ -284,16 +279,16 @@ export async function runClaudeCodeTurn(
       '--mcp-config', mcpConfigPath,
       '--strict-mcp-config',
       '--allowedTools', ALLOWED_TOOLS,
-      '--disallowedTools', DENIED_TOOLS,
-      // Restricted mode ignores the user's own ~/.claude settings and hooks,
-      // confines the file tools to the working directory and refuses
-      // bypassPermissions (verified against 2.1.263), so the permission mode is
-      // left at its default and the allow rule above is what pre-approves the
-      // editor's MCP tools. `--permission-prompts none` fails closed for anything
-      // that would otherwise ask a human: nobody can answer a -p turn, so those
-      // calls are denied instead of hanging.
-      '--restricted',
-      '--permission-prompts', 'none',
+      ...(request.askOnly ? [
+        '--disallowedTools', DENIED_TOOLS,
+        // Ask turns keep restricted mode and fail closed on approval prompts.
+        '--restricted',
+        '--permission-prompts', 'none',
+      ] : [
+        '--dangerously-skip-permissions',
+        '--setting-sources', 'project,local',
+        '--add-dir', homedir(),
+      ]),
       '--append-system-prompt-file', systemPromptPath,
     ];
     if (request.model) args.push('--model', request.model);
@@ -301,7 +296,7 @@ export async function runClaudeCodeTurn(
     const command = claudeCodeCommand(claudePath, args);
     const child = spawn(command.executable, command.args, {
       env: childEnvironment(),
-      // Restricted mode scopes the CLI's file tools to its working directory.
+      // In Ask mode, restricted mode scopes the CLI's file tools to its working directory.
       // Point that at the same throwaway directory as the MCP config (removed in
       // the finally below) instead of inheriting the app's checkout, where the
       // CLI would otherwise also auto-load AGENTS.md/CLAUDE.md.

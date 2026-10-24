@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
-import { ToolSet, defineTool, type CopilotSession, type SessionConfig, type Tool } from '@github/copilot-sdk';
+import { approveAll, ToolSet, defineTool, type CopilotSession, type SessionConfig, type Tool } from '@github/copilot-sdk';
+import { homedir } from 'node:os';
 import type {
   CopilotToolResultRequest,
   CopilotTurnRequest,
@@ -211,17 +212,23 @@ export function copilotSessionConfig(
   state: () => TurnSession | undefined,
 ): SessionConfig {
   const reasoningEffort = copilotReasoningEffort(request.reasoningEffort);
+  // Ask-only turns stay inside OpenChatCut's read-only tool catalog. Normal
+  // turns use Copilot's full tool set and HOME as the session's workspace.
+  const askOnly = request.askOnly === true;
+  const availableTools = new ToolSet().addCustom('*');
+  if (!askOnly) availableTools.addBuiltIn('*').addMcp('*');
   return {
     streaming: true,
     ...(request.model ? { model: request.model } : {}),
     ...(reasoningEffort ? { reasoningEffort } : {}),
+    workingDirectory: homedir(),
     systemMessage: { mode: 'replace', content: request.system },
     tools: hostTools(request, state),
-    availableTools: new ToolSet().addCustom('*'),
-    onPermissionRequest: () => ({
+    availableTools,
+    onPermissionRequest: askOnly ? () => ({
       kind: 'reject',
-      feedback: 'OpenChatCut only permits its own editing tools.',
-    }),
+      feedback: 'Ask-only sessions cannot use Copilot built-in tools.',
+    }) : approveAll,
     enableSessionStore: false,
   };
 }

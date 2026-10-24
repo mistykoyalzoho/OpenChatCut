@@ -4,8 +4,10 @@
 // running skill-shipped scripts (ffmpeg / node / python) — the portable stand-in for the
 // native Agent Skills code-execution container, which our relay can't reach. The sandbox
 // cannot touch the editor; results come back and the agent applies them via local tools.
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { spawn } from 'node:child_process';
+import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
+import { homedir, tmpdir } from 'node:os';
+import { dirname, isAbsolute, join, resolve } from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { Plugin } from 'vite';
 import { Sandbox } from '@e2b/code-interpreter';
@@ -57,6 +59,8 @@ interface E2bOptions {
   /** e2b template id/name; omit → SDK default (code-interpreter, no ffmpeg). Set to a
    *  custom template (e.g. one with ffmpeg baked in) via E2B_TEMPLATE in .env.local. */
   template?: string;
+  /** Run commands directly on this Mac when no E2B key is set (LOCAL_SHELL != '0'). */
+  localShell?: boolean;
 }
 
 interface E2bFile {
@@ -70,6 +74,8 @@ interface E2bRequest {
   files?: E2bFile[];
   outputs?: string[];
   timeoutMs?: number;
+  /** Local backend only: working directory (absolute or ~/...). Default: a fresh temp dir. */
+  cwd?: string;
 }
 
 const MAX_BODY = 25_000_000; // allow small media files written into the sandbox
@@ -102,6 +108,62 @@ function asCommandResult(error: unknown): { stdout: string; stderr: string; exit
   throw error;
 }
 
+const LOCAL_MAX_TIMEOUT = 1_800_000;
+const LOCAL_MAX_STREAM = 4_000_000;
+
+function expandHome(path: string): string {
+  return path === '~' ? homedir() : path.startsWith('~/') ? join(homedir(), path.slice(2)) : path;
+}
+
+// Local backend: the same /e2b/run contract, executed by the user's own login shell on
+// this Mac with the app user's full permissions. Used when no E2B key is configured and
+// LOCAL_SHELL is not '0'. Relative file/output paths resolve against the working dir.
+export async function runLocalCommand(input: E2bRequest): Promise<{
+  stdout: string; stderr: string; exitCode: number; outputs: Record<string, string>; backend: 'local'; cwd: string;
+}> {
+  const command = String(input.command ?? '').trim();
+  if (!command) throw new Error('command is required');
+  const cwd = input.cwd?.trim()
+    ? resolve(expandHome(input.cwd.trim()))
+    : await mkdtemp(join(tmpdir(), 'openchatcut-run-'));
+  await mkdir(cwd, { recursive: true });
+  const at = (path: string) => (isAbsolute(expandHome(path)) ? expandHome(path) : join(cwd, path));
+  for (const file of input.files ?? []) {
+    const target = at(file.path);
+    await mkdir(dirname(target), { recursive: true });
+    const bytes = await resolveE2bFileBytes(file);
+    await writeFile(target, typeof bytes === 'string' ? bytes : Buffer.from(bytes));
+  }
+  const timeoutMs = Math.min(Math.max(input.timeoutMs ?? 300_000, 1_000), LOCAL_MAX_TIMEOUT);
+  const shell = process.env.SHELL && isAbsolute(process.env.SHELL) ? process.env.SHELL : '/bin/zsh';
+  const path = ['/opt/homebrew/bin', '/opt/homebrew/sbin', '/usr/local/bin', process.env.PATH ?? '/usr/bin:/bin:/usr/sbin:/sbin']
+    .join(':');
+  const result = await new Promise<{ stdout: string; stderr: string; exitCode: number }>((done, fail) => {
+    const child = spawn(shell, ['-lc', command], {
+      cwd, env: { ...process.env, PATH: path }, detached: true, stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    let stdout = '';
+    let stderr = '';
+    const take = (prev: string, chunk: Buffer) => (prev.length >= LOCAL_MAX_STREAM ? prev : prev + chunk.toString('utf8'));
+    child.stdout.on('data', (c: Buffer) => { stdout = take(stdout, c); });
+    child.stderr.on('data', (c: Buffer) => { stderr = take(stderr, c); });
+    const timer = setTimeout(() => {
+      stderr += `\n[local] timed out after ${timeoutMs} ms; process group killed`;
+      try { if (child.pid) process.kill(-child.pid, 'SIGKILL'); } catch { /* already gone */ }
+    }, timeoutMs);
+    child.on('error', (error) => { clearTimeout(timer); fail(error); });
+    child.on('close', (code, signal) => {
+      clearTimeout(timer);
+      done({ stdout, stderr, exitCode: typeof code === 'number' ? code : signal ? 137 : 1 });
+    });
+  });
+  const outputs: Record<string, string> = {};
+  for (const out of input.outputs ?? []) {
+    try { outputs[out] = await readFile(at(out), 'utf8'); } catch { outputs[out] = ''; }
+  }
+  return { ...result, outputs, backend: 'local', cwd };
+}
+
 function createSandbox(options: E2bOptions, timeoutMs: number): Promise<Sandbox> {
   const createOpts = { apiKey: options.apiKey, timeoutMs: Math.min(timeoutMs, MAX_TIMEOUT) };
   return options.template ? Sandbox.create(options.template, createOpts) : Sandbox.create(createOpts);
@@ -118,7 +180,11 @@ export function e2bPlugin(options: E2bOptions): Plugin {
         if (req.method !== 'POST') { sendJson(res, 405, { error: 'method not allowed — use POST' }); return; }
         let sandbox: Sandbox | undefined;
         try {
-          if (!options.apiKey) throw new Error('e2b sandbox is not configured. Set E2B_API_KEY in .env.local.');
+          if (!options.apiKey && options.localShell) {
+            sendJson(res, 200, await runLocalCommand(await readJson(req)));
+            return;
+          }
+          if (!options.apiKey) throw new Error('e2b sandbox is not configured. Set E2B_API_KEY in .env.local, or leave LOCAL_SHELL unset to run on this Mac.');
           const input = await readJson(req);
           const command = String(input.command ?? '').trim();
           if (!command) throw new Error('command is required');

@@ -167,6 +167,9 @@ async function claudeCodeModels(): Promise<ClaudeCodeAgentModelsResponse> {
 }
 
 function parseClaudeCodeTurnRequest(body: Record<string, unknown>): ClaudeCodeTurnRequest {
+  if (body.askOnly !== undefined && typeof body.askOnly !== 'boolean') {
+    throw new HttpError(400, 'askOnly must be a boolean');
+  }
   return {
     requestId: shortString(body.requestId, 'requestId', 128),
     system: typeof body.system === 'string' ? body.system.slice(0, 1024 * 1024) : '',
@@ -174,6 +177,7 @@ function parseClaudeCodeTurnRequest(body: Record<string, unknown>): ClaudeCodeTu
     projectId: shortString(body.projectId, 'projectId', 256),
     ...(typeof body.model === 'string' && body.model ? { model: body.model } : {}),
     ...(typeof body.sessionId === 'string' && body.sessionId ? { sessionId: body.sessionId } : {}),
+    askOnly: body.askOnly === true,
     ...(body.approvalMode === 'auto' || body.approvalMode === 'manual'
       ? { approvalMode: body.approvalMode } : {}),
   };

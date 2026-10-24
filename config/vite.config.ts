@@ -140,7 +140,7 @@ export default defineConfig(({ mode }) => {
         sound: Boolean(elevenKey),
         stock: Boolean(pexelsKey || pixabayKey || unsplashKey || freesoundKey),
         transcription: Boolean(aaiKey),
-        sandbox: Boolean(e2bKey),
+        sandbox: Boolean(e2bKey) || (env.LOCAL_SHELL ?? process.env.LOCAL_SHELL ?? '') !== '0',
         web: Boolean(firecrawlKey),
       }),
     },

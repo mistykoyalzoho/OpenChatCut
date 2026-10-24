@@ -121,6 +121,7 @@ export const KEY_NAMES = [
   "ASSEMBLYAI_API_KEY",
   "E2B_API_KEY",
   "E2B_TEMPLATE",
+  "LOCAL_SHELL",
   "FIRECRAWL_API_KEY",
   "UPLOAD_POST_API_KEY",
   "UPLOAD_POST_PROFILE",
@@ -258,6 +259,7 @@ export const NON_SECRET_NAMES: ReadonlySet<string> = new Set([
   "R2_ENABLED", // Cloud synchronization switch ('' default = enabled, '0' = disabled) - configuration is not credentials
   "R2_PRESIGN", // Browser pre-signed direct transmission ('' default = enabled, '0' = server-side write-through only)
   "MEDIA_DIR", // Asset saving directory (local path, '' = default public/media/uploads) - configuration is not credentials
+  "LOCAL_SHELL", // Local Mac shell for run_code ('' default = enabled, '0' = disabled) - configuration is not credentials
   "OPENCHATCUT_SKILLS_DIR", // User skill files directory ('' = ~/.openchatcut/skills) - configuration is not credentials
   ...LLM_PROVIDER_PRESETS.flatMap((preset) => {
     const names = llmProviderConfigNames(preset.id);

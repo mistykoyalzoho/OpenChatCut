@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { fileURLToPath } from 'node:url';
 import { copyFile, mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
+import { homedir, tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { ToolSet } from '@github/copilot-sdk';
 import { parseCopilotTurnRequest } from '../plugins/copilot-agent.ts';
@@ -59,8 +59,17 @@ try {
 const session = copilotSessionConfig(turnBody, () => undefined);
 assert.equal(session.streaming, true, 'the SDK must emit the delta events consumed by the turn manager');
 assert.ok(session.availableTools instanceof ToolSet);
-assert.deepEqual(session.availableTools.toArray(), new ToolSet().addCustom('*').toArray(),
-  'only host editing tools are available, never built-in or MCP tools');
+assert.deepEqual(session.availableTools.toArray(),
+  new ToolSet().addCustom('*').addBuiltIn('*').addMcp('*').toArray(),
+  'normal Copilot sessions expose every registered Copilot and host tool');
+assert.equal(session.workingDirectory, homedir(), 'normal Copilot sessions run from HOME');
+assert.equal(session.onPermissionRequest, (await import('@github/copilot-sdk')).approveAll,
+  'normal Copilot sessions automatically approve tool permissions');
+const askSession = copilotSessionConfig({ ...turnBody, askOnly: true }, () => undefined);
+assert.deepEqual((askSession.availableTools as ToolSet).toArray(), new ToolSet().addCustom('*').toArray(),
+  'ask-only sessions expose only the server-provided read-only catalog');
+assert.equal(askSession.onPermissionRequest?.({ kind: 'shell' } as never, {} as never).kind, 'reject',
+  'ask-only sessions reject Copilot-native tool permissions');
 assert.throws(() => copilotSessionConfig({ ...turnBody, reasoningEffort: 'invalid' }, () => undefined),
   /Unsupported Copilot reasoning effort/);
 const automaticModel = copilotModelSummary({

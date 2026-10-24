@@ -30,6 +30,8 @@ export interface ClaudeCodeTurnRequest {
   readonly projectId: string;
   readonly model?: string;
   readonly sessionId?: string;
+  /** Keep Ask turns restricted; normal turns have full host access. */
+  readonly askOnly?: boolean;
   /**
    * The composer's auto-apply (YOLO) state for this run. Declared to the
    * turn's own MCP server so begin_edit_session cannot fall back to "manual"

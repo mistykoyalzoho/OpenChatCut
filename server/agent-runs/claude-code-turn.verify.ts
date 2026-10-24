@@ -441,4 +441,22 @@ console.log('server agent claude-code turn verification passed');
   assert.equal(requests[2].sessionId, undefined, 'a failed turn forgets the session id');
 }
 
+// Ask mode is forwarded and cannot resume a full-access session.
+{
+  resetClaudeCodeSessionsForTest();
+  const requests: ClaudeCodeTurnRequest[] = [];
+  const deps: ServerClaudeCodeTurnDeps = {
+    runTurn: async (request, emit) => {
+      requests.push(request);
+      emit({ type: 'session', sessionId: request.askOnly ? 'ask-session' : 'agent-session' });
+      emit({ type: 'done' });
+    },
+  };
+  await executeServerClaudeCodeTurn(makeInput(makeRun()), deps);
+  await executeServerClaudeCodeTurn({ ...makeInput(makeRun()), askOnly: true }, deps);
+  assert.equal(requests[0].askOnly, false);
+  assert.equal(requests[1].askOnly, true);
+  assert.equal(requests[1].sessionId, undefined, 'Ask does not resume a full-access session');
+}
+
 console.log('claude-code-turn.verify: session resume, fallback and invalidation passed');

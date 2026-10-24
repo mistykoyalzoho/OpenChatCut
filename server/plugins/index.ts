@@ -368,6 +368,9 @@ export function serverPlugins(options: { projectStoreHttp?: boolean } = {}): Plu
       get template() {
         return getKey("E2B_TEMPLATE") || undefined;
       },
+      get localShell() {
+        return getKey("LOCAL_SHELL") !== "0";
+      },
     }),
   ];
 }

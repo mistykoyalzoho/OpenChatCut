@@ -27,10 +27,11 @@ export interface ClaudeCodeSessionScope {
   readonly projectId: string;
   readonly sessionGeneration: string;
   readonly model: string;
+  readonly askOnly?: boolean;
 }
 
 export function claudeCodeSessionKey(scope: ClaudeCodeSessionScope): string {
-  return `${scope.projectId}\0${scope.sessionGeneration}\0${scope.model}`;
+  return `${scope.projectId}\0${scope.sessionGeneration}\0${scope.model}\0${scope.askOnly ? 'ask' : 'agent'}`;
 }
 
 export function recallClaudeCodeSession(key: string): string | null {

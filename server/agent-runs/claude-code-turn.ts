@@ -73,7 +73,7 @@ async function summarizeWithClaudeCode(
   const requestId = `summary-${input.run.id}-${input.requestIndex}-${crypto.randomUUID().slice(0, 8)}`;
   let text = '';
   await runServerClaudeCodeTurn(
-    { requestId, system: systemPrompt, prompt, projectId: input.projectId, model: input.model },
+    { requestId, system: systemPrompt, prompt, projectId: input.projectId, model: input.model, askOnly: true },
     (event) => {
       if (event.type === 'text-delta') text += event.delta;
     },
@@ -197,6 +197,7 @@ export async function executeServerClaudeCodeTurn(
     projectId: input.projectId,
     sessionGeneration: input.run.sessionGeneration,
     model: input.model,
+    askOnly: input.askOnly,
   });
   // Compaction rewrites OpenChatCut's history but leaves the CLI's own
   // transcript untouched, so the two have diverged and a resumed session would
@@ -298,6 +299,7 @@ export async function executeServerClaudeCodeTurn(
             : serializeMessagesForPrompt([...prepared.messages]),
           projectId: input.projectId,
           model: input.model,
+          askOnly: input.askOnly,
           ...(input.approvalMode ? { approvalMode: input.approvalMode } : {}),
           ...(sessionId ? { sessionId } : {}),
         },

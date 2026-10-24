@@ -211,14 +211,21 @@ function valueAfter(flag) {
 }
 if (!has('--strict-mcp-config')) process.exit(61);
 if (!has('--allowedTools') || valueAfter('--allowedTools') !== 'mcp__openchatcut-builtin__*') process.exit(62);
-// The turn must run sandboxed: restricted mode + deny list + fail-closed prompts.
-// bypassPermissions is refused by --restricted (2.1.263) and must never come back.
+// Normal turns have host access; Ask turns retain restricted, fail-closed tools.
+const askOnly = valueAfter('-p') === 'ask-mode-probe';
 if (has('--permission-mode')) process.exit(63);
-if (!has('--restricted')) process.exit(65);
-if (valueAfter('--permission-prompts') !== 'none') process.exit(66);
-if (!has('--disallowedTools')) process.exit(67);
-for (const denied of ['Bash', 'Write', 'Edit', 'WebFetch', 'WebSearch', 'Task']) {
-  if (!valueAfter('--disallowedTools').split(' ').includes(denied)) process.exit(68);
+if (askOnly) {
+  if (!has('--restricted') || has('--dangerously-skip-permissions')) process.exit(65);
+  if (valueAfter('--permission-prompts') !== 'none') process.exit(66);
+  if (!has('--disallowedTools') || has('--add-dir') || has('--setting-sources')) process.exit(67);
+  for (const denied of ['Bash', 'Write', 'Edit', 'WebFetch', 'WebSearch', 'Task']) {
+    if (!valueAfter('--disallowedTools').split(' ').includes(denied)) process.exit(68);
+  }
+} else {
+  if (has('--restricted') || has('--disallowedTools') || has('--permission-prompts')) process.exit(65);
+  if (!has('--dangerously-skip-permissions')) process.exit(66);
+  if (valueAfter('--setting-sources') !== 'project,local') process.exit(67);
+  if (valueAfter('--add-dir') !== (await import('node:os')).homedir()) process.exit(68);
 }
 // Restricted mode scopes file tools to the working directory, so the child must
 // not inherit the app checkout as its cwd. Compare the directory NAME (the
@@ -247,6 +254,7 @@ if (!has('--append-system-prompt-file')) process.exit(66);
 const promptFile = valueAfter('--append-system-prompt-file');
 if (!promptFile || !existsSync(promptFile)) process.exit(67);
 if (!readFileSync(promptFile, 'utf8').includes('OpenChatCut')) process.exit(68);
+if (!readFileSync(promptFile, 'utf8').includes(askOnly ? 'Ask mode: stay sandboxed' : 'full access to this computer')) process.exit(68);
 // Guard the whole command line, not just the system prompt.
 if (args.join(' ').length > 8000) process.exit(69);
 const promptIndex = args.indexOf('-p');
@@ -285,6 +293,17 @@ if (process.platform === 'win32') {
 }
 
 try {
+  {
+    const events: ClaudeCodeTurnStreamEvent[] = [];
+    await runClaudeCodeTurn(
+      shimPath,
+      { requestId: 'req-ask', system: 'sys', prompt: 'ask-mode-probe', projectId: 'proj-1', askOnly: true },
+      'http://127.0.0.1:1/api/external-mcp/mcp', 'fake-token',
+      (event) => events.push(event), new AbortController().signal,
+    );
+    assert.ok(events.some((event) => event.type === 'done'));
+    assert.ok(!events.some((event) => event.type === 'error'), 'Ask keeps restricted CLI policy');
+  }
   {
     const events: ClaudeCodeTurnStreamEvent[] = [];
     await runClaudeCodeTurn(
