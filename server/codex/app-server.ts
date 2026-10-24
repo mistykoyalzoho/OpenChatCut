@@ -12,36 +12,12 @@ const MAX_PROTOCOL_LINE_BYTES = 8 * 1024 * 1024;
 const CODEX_HOME = join(homedir(), '.openchatcut', 'codex');
 /** System Codex home that OpenChatCut's isolated CODEX_HOME inherits credentials from. */
 const SYSTEM_CODEX_HOME = join(homedir(), '.codex');
-export const CODEX_DISABLED_FEATURES = [
-  'apps',
-  'auth_elicitation',
-  'browser_use',
-  'browser_use_external',
-  'browser_use_full_cdp_access',
-  'code_mode',
-  'computer_use',
-  'enable_mcp_apps',
-  'hooks',
-  'image_generation',
-  'in_app_browser',
-  'memories',
-  'multi_agent',
-  'plugin_sharing',
-  'plugins',
-  'remote_plugin',
-  'shell_snapshot',
-  'shell_tool',
-  'skill_mcp_dependency_install',
-  'tool_call_mcp_elicitation',
-  'tool_suggest',
-  'unified_exec',
-  'workspace_dependencies',
-] as const;
 const APP_SERVER_ARGS: readonly string[] = [
-  ...CODEX_DISABLED_FEATURES.flatMap((feature) => ['-c', `features.${feature}=false`]),
+  '-c', 'features.shell_tool=true',
+  '-c', 'features.unified_exec=true',
   '-c', 'features.code_mode_host=true',
-  '-c', 'tools.view_image=false',
-  '-c', 'web_search=disabled',
+  '-c', 'tools.view_image=true',
+  '-c', 'web_search=live',
   'app-server', '--listen', 'stdio://',
 ];
 const CHILD_ENV_NAMES = [
@@ -353,14 +329,6 @@ export class CodexAppServerClient {
   }
 
   private handleServerRequest(id: number | string, method: string, params: Record<string, unknown>): void {
-    if (method === 'item/commandExecution/requestApproval' || method === 'item/fileChange/requestApproval') {
-      this.writeMessage({ id, result: { decision: 'decline' } });
-      return;
-    }
-    if (method === 'execCommandApproval' || method === 'applyPatchApproval') {
-      this.writeMessage({ id, result: { decision: { denied: { rejection: 'Use the OpenChatCut proposal review.' } } } });
-      return;
-    }
     const request = this.serverRequest(id, method, params);
     for (const handler of this.serverRequests) {
       try {

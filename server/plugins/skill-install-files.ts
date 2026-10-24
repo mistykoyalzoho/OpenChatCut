@@ -1,12 +1,12 @@
 import { constants, createWriteStream } from 'node:fs';
-import { cp, lstat, mkdir, mkdtemp, open, readdir, rename, rm } from 'node:fs/promises';
-import { dirname, join } from 'node:path';
+import { cp, lstat, mkdir, mkdtemp, open, readlink, realpath, readdir, rename, rm } from 'node:fs/promises';
+import { dirname, join, sep } from 'node:path';
 import { Readable, Transform } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 
 export const MAX_FILE_BYTES = 4 * 1024 * 1024;
 export const MAX_TOTAL_BYTES = 64 * 1024 * 1024;
-export interface SkillInstallFile { path: string; size: number; sha?: string }
+export interface SkillInstallFile { path: string; size: number; sha?: string; sourcePath?: string }
 export interface SkillByteBudget { total: number }
 
 const SKIP_PREFIXES = ['readme', 'license', 'changelog', '.gitignore', 'agents/', 'workflow'];
@@ -44,21 +44,41 @@ export function validateSkillFiles(files: SkillInstallFile[]): void {
   }
 }
 
-/** Enumerate before reading; lstat never follows links, including SKILL.md. */
-export async function listCloneSkillFiles(root: string, relative = ''): Promise<SkillInstallFile[]> {
+/** Enumerate before reading. Internal symlinks are materialized; escaping links and cycles fail closed. */
+export async function listCloneSkillFiles(root: string, relative = '', allowedRoot = root): Promise<SkillInstallFile[]> {
+  const canonicalRoot = await realpath(root);
+  const canonicalBoundary = await realpath(allowedRoot);
   const files: SkillInstallFile[] = [];
-  for (const entry of await readdir(join(root, relative), { withFileTypes: true })) {
+  const walk = async (sourceDir: string, outputDir: string, ancestors: ReadonlySet<string>): Promise<void> => {
+  for (const entry of await readdir(sourceDir, { withFileTypes: true })) {
     if (entry.name === '.git') continue;
-    const path = relative ? `${relative}/${entry.name}` : entry.name;
+    const path = outputDir ? `${outputDir}/${entry.name}` : entry.name;
     validateSkillPath(path);
-    const info = await lstat(join(root, path));
-    if (info.isSymbolicLink()) throw new Error(`symbolic links are not allowed in skills: ${path}`);
-    if (info.isDirectory()) files.push(...await listCloneSkillFiles(root, path));
+    const sourcePath = join(sourceDir, entry.name);
+    const info = await lstat(sourcePath);
+    if (info.isSymbolicLink()) {
+      const target = await realpath(sourcePath);
+      if (target !== canonicalBoundary && !target.startsWith(`${canonicalBoundary}${sep}`)) {
+        throw new Error(`skill symlink escapes repository: ${path} -> ${await readlink(sourcePath)}`);
+      }
+      if (ancestors.has(target)) throw new Error(`skill symlink cycle: ${path}`);
+      const targetInfo = await lstat(target);
+      if (targetInfo.isDirectory()) {
+        await walk(target, path, new Set([...ancestors, target]));
+      } else if (targetInfo.isFile() && isSkillPath(path)) {
+        files.push({ path, size: targetInfo.size, sourcePath: target });
+      } else if (!targetInfo.isFile()) {
+        throw new Error(`skill symlink target must be a regular file or directory: ${path}`);
+      }
+    }
+    else if (info.isDirectory()) await walk(sourcePath, path, ancestors);
     else if (isSkillPath(path)) {
       if (!info.isFile()) throw new Error(`skill entry must be a regular file: ${path}`);
-      files.push({ path, size: info.size });
+      files.push({ path, size: info.size, sourcePath });
     }
   }
+  };
+  await walk(join(root, relative), relative, new Set([canonicalRoot]));
   return files;
 }
 
@@ -89,12 +109,12 @@ export async function stageSkillFile(
   }
 }
 
-export async function stageCloneSkillFiles(source: string, stage: string): Promise<SkillInstallFile[]> {
-  const files = await listCloneSkillFiles(source);
+export async function stageCloneSkillFiles(source: string, stage: string, allowedRoot = source): Promise<SkillInstallFile[]> {
+  const files = await listCloneSkillFiles(source, '', allowedRoot);
   validateSkillFiles(files);
   const budget = { total: 0 };
   for (const file of files) {
-    const handle = await open(join(source, file.path), constants.O_RDONLY | constants.O_NOFOLLOW);
+    const handle = await open(file.sourcePath ?? join(source, file.path), constants.O_RDONLY | constants.O_NOFOLLOW);
     try {
       const info = await handle.stat();
       if (!info.isFile() || info.size !== file.size) throw new Error(`skill file changed: ${file.path}`);

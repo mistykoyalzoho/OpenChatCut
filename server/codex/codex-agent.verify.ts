@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
 import type { CodexTurnStreamEvent } from '../../shared/codex-agent.ts';
-import { CODEX_DISABLED_FEATURES, CodexAppServerClient } from './app-server.ts';
+import { CodexAppServerClient } from './app-server.ts';
 import { codexCommand } from './command.ts';
 import { CodexTurnManager } from './turn-manager.ts';
 import { mapCodexModels, parseCodexTurnRequest } from '../plugins/codex-agent.ts';
@@ -42,10 +42,11 @@ const FAKE_APP_SERVER = String.raw`
 import { createInterface } from 'node:readline';
 
 
-const requiredFeatureArgs = ${JSON.stringify(CODEX_DISABLED_FEATURES.map((feature) => `features.${feature}=false`))};
-if (requiredFeatureArgs.some((arg) => !process.argv.includes(arg))) process.exit(71);
-if (!process.argv.includes('features.code_mode_host=true')) process.exit(71);
-if (!process.argv.includes('tools.view_image=false') || !process.argv.includes('web_search=disabled')) process.exit(71);
+if (!process.argv.includes('features.code_mode_host=true')
+  || !process.argv.includes('features.shell_tool=true')
+  || !process.argv.includes('features.unified_exec=true')
+  || !process.argv.includes('tools.view_image=true')
+  || !process.argv.includes('web_search=live')) process.exit(71);
 const lines = createInterface({ input: process.stdin, crlfDelay: Infinity });
 const send = (message) => process.stdout.write(JSON.stringify(message) + '\n');
 let activeThread = '';
@@ -112,12 +113,15 @@ lines.on('line', (line) => {
   if (message.method === 'thread/start') {
     if (message.params.model !== 'gpt-5.4') process.exit(77);
     if (!message.params.dynamicTools?.some((tool) => tool.name === 'read_project')) process.exit(79);
-    if (!message.params.baseInstructions?.includes('without changing the project')) process.exit(80);
-    if (message.params.config?.features?.code_mode !== false
-      || message.params.config?.features?.code_mode_host !== true
-      || message.params.config?.features?.computer_use !== false
-      || message.params.config?.features?.unified_exec !== false
-      || message.params.config?.web_search !== 'disabled') process.exit(81);
+    if (!message.params.baseInstructions?.includes('full local shell and filesystem access')) process.exit(80);
+    if (message.params.config?.features?.code_mode_host !== true
+      || message.params.config?.features?.unified_exec !== true
+      || message.params.config?.features?.shell_tool !== true
+      || message.params.config?.web_search !== 'live'
+      || message.params.config?.tools?.view_image !== true) process.exit(81);
+    if (message.params.sandbox !== 'danger-full-access'
+      || message.params.approvalPolicy !== 'never'
+      || message.params.cwd !== process.env.HOME) process.exit(82);
     activeThread = 'thread-1';
     send({ id: message.id, result: { thread: { id: activeThread } } });
     return;
@@ -134,7 +138,7 @@ lines.on('line', (line) => {
     return;
   }
   if (message.id === 'approval-1') {
-    if (message.result?.decision !== 'decline') process.exit(73);
+    if (message.result?.decision !== 'accept') process.exit(73);
     connectorRequest();
     return;
   }
@@ -242,7 +246,7 @@ try {
     projectId: 'project-1',
     model: 'gpt-5.4',
     reasoningEffort: 'high',
-    askOnly: true,
+    askOnly: false,
     tools: [{
       name: 'read_project',
       description: 'Read project state',

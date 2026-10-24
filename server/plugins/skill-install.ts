@@ -33,11 +33,16 @@ interface InstallRequest {
   slug?: string;
 }
 
-function parseRepo(raw: string): { owner: string; repo: string } | null {
+function parseRepo(raw: string): { owner: string; repo: string; ref?: string; subpath?: string } | null {
   const value = String(raw ?? '').trim();
-  const m = value.match(/^(?:https?:\/\/github\.com\/)?([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)(?:\/|$)/);
+  const m = value.match(/^(?:https?:\/\/github\.com\/)?([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)(?:\/tree\/([^/]+)\/(.+))?\/?$/);
   if (!m) return null;
-  return { owner: m[1]!, repo: m[2]!.replace(/\.git$/i, '') };
+  const subpath = m[4];
+  if (subpath) validateSkillPath(subpath);
+  return {
+    owner: m[1]!, repo: m[2]!.replace(/\.git$/i, ''),
+    ...(m[3] ? { ref: m[3] } : {}), ...(subpath ? { subpath } : {}),
+  };
 }
 
 function githubToken(): string {
@@ -83,8 +88,28 @@ class RateLimitedError extends Error {
   constructor(message: string) { super(message); this.name = 'RateLimitedError'; }
 }
 
-async function fetchTree(owner: string, repo: string): Promise<SkillInstallFile[]> {
-  const res = await fetchWithProxy(`https://api.github.com/repos/${owner}/${repo}/git/trees/HEAD?recursive=1`, {
+class SymlinkRequiresCloneError extends Error {
+  constructor() { super('GitHub skill contains symlinks; resolving repository targets via shallow clone.'); }
+}
+
+function skillRoot(paths: string[], repo: string, requested?: string): string {
+  if (requested) return requested.replace(/\/$/, '');
+  if (paths.includes('SKILL.md')) return '';
+  const matching = `skills/${repo}/SKILL.md`;
+  if (paths.includes(matching)) return `skills/${repo}`;
+  const candidates = paths.filter((path) => /^skills\/[^/]+\/SKILL\.md$/i.test(path));
+  if (candidates.length === 1) return candidates[0]!.slice(0, -'/SKILL.md'.length);
+  throw new Error('repo must contain SKILL.md at its root or one unambiguous skills/<name>/SKILL.md');
+}
+
+function withinSkillRoot(path: string, root: string): string | null {
+  if (!root) return path;
+  return path.startsWith(`${root}/`) ? path.slice(root.length + 1) : null;
+}
+
+async function fetchTree(owner: string, repo: string, requested?: string, ref?: string): Promise<SkillInstallFile[]> {
+  const treeRef = ref ?? 'HEAD';
+  const res = await fetchWithProxy(`https://api.github.com/repos/${owner}/${repo}/git/trees/${encodeURIComponent(treeRef)}?recursive=1`, {
     headers: apiHeaders(),
     signal: AbortSignal.timeout(30_000),
   });
@@ -94,15 +119,20 @@ async function fetchTree(owner: string, repo: string): Promise<SkillInstallFile[
   }
   const data = (await res.json()) as { tree?: Array<{ path: string; sha: string; size: number; type: string; mode: string }>; truncated?: boolean };
   if (data.truncated === true) throw new Error('repo tree too large for recursive listing');
+  const paths = (data.tree ?? []).map((entry) => entry.path);
+  for (const path of paths) validateSkillPath(path);
+  const root = skillRoot(paths, repo, requested);
   const files: SkillInstallFile[] = [];
   for (const entry of data.tree ?? []) {
     validateSkillPath(entry.path);
-    if (entry.mode === '120000') throw new Error(`symbolic links are not allowed in skills: ${entry.path}`);
+    const path = withinSkillRoot(entry.path, root);
+    if (path === null) continue;
+    if (entry.mode === '120000' && isSkillPath(path)) throw new SymlinkRequiresCloneError();
     if (entry.type === 'tree') continue;
-    if (!isSkillPath(entry.path)) continue;
+    if (!isSkillPath(path)) continue;
     if (entry.type !== 'blob' || !['100644', '100755'].includes(entry.mode)
-      || !/^[a-f0-9]{40,64}$/i.test(entry.sha)) throw new Error(`invalid skill blob: ${entry.path}`);
-    files.push({ path: entry.path, sha: entry.sha, size: entry.size });
+      || !/^[a-f0-9]{40,64}$/i.test(entry.sha)) throw new Error(`invalid skill blob: ${path}`);
+    files.push({ path, sha: entry.sha, size: entry.size });
   }
   validateSkillFiles(files);
   return files;
@@ -114,8 +144,8 @@ function deriveSlug(override: string | undefined, frontmatterName: string, repoN
   return SAFE_SLUG.test(candidate) ? candidate : '';
 }
 
-async function installViaApi(owner: string, repo: string, stage: string): Promise<SkillInstallFile[]> {
-  const files = await fetchTree(owner, repo);
+async function installViaApi(owner: string, repo: string, stage: string, requested?: string, ref?: string): Promise<SkillInstallFile[]> {
+  const files = await fetchTree(owner, repo, requested, ref);
   const budget = { total: 0 };
   for (const file of files) {
     // Build the trusted origin ourselves; never send credentials to a tree-provided URL.
@@ -138,11 +168,13 @@ async function installViaApi(owner: string, repo: string, stage: string): Promis
 }
 
 /** Shallow clone fallback for GitHub API rate limits (git must be available). */
-async function installViaClone(owner: string, repo: string, stage: string): Promise<SkillInstallFile[]> {
+async function installViaClone(owner: string, repo: string, stage: string, requested?: string, ref?: string): Promise<SkillInstallFile[]> {
   const scratch = await mkdtemp(join(tmpdir(), 'occ-skill-clone-'));
   try {
-    await execFileAsync('git', ['clone', '--depth', '1', `https://github.com/${owner}/${repo}`, scratch], { timeout: 120_000, maxBuffer: 8 * 1024 * 1024 });
-    return await stageCloneSkillFiles(scratch, stage);
+    await execFileAsync('git', ['clone', '--depth', '1', ...(ref ? ['--branch', ref] : []), `https://github.com/${owner}/${repo}`, scratch], { timeout: 120_000, maxBuffer: 8 * 1024 * 1024 });
+    const listing = await execFileAsync('git', ['-C', scratch, 'ls-tree', '-r', '--name-only', 'HEAD'], { timeout: 10_000 });
+    const root = skillRoot(listing.stdout.split(/\r?\n/).filter(Boolean), repo, requested);
+    return await stageCloneSkillFiles(root ? join(scratch, root) : scratch, stage, scratch);
   } finally {
     await rm(scratch, { recursive: true, force: true }).catch(() => undefined);
   }
@@ -154,19 +186,19 @@ export async function installGitHubSkill(
 ): Promise<{ slug: string; installedAt: string; files: string[]; source: string }> {
   const parsed = parseRepo(repo);
   if (!parsed) throw new Error('repo must be a GitHub URL or owner/repo');
-  const { owner, repo: repoName } = parsed;
+  const { owner, repo: repoName, subpath, ref } = parsed;
   const stage = await mkdtemp(join(tmpdir(), 'occ-skill-stage-'));
   try {
     let files: SkillInstallFile[];
     let source = 'api';
     try {
-      files = await installViaApi(owner, repoName, stage);
+      files = await installViaApi(owner, repoName, stage, subpath, ref);
     } catch (error) {
-      if (!(error instanceof RateLimitedError)) throw error;
+      if (!(error instanceof RateLimitedError) && !(error instanceof SymlinkRequiresCloneError)) throw error;
       await rm(stage, { recursive: true, force: true });
       await mkdir(stage);
       source = 'git-clone';
-      files = await installViaClone(owner, repoName, stage);
+      files = await installViaClone(owner, repoName, stage, subpath, ref);
     }
     const skill = await readFile(join(stage, 'SKILL.md'), 'utf8');
     const frontmatterName = skill.match(/^name:\s*([A-Za-z0-9_-]+)\s*$/m)?.[1] ?? '';

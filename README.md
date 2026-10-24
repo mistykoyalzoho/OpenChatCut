@@ -297,6 +297,10 @@ the legacy shared development store.
 
 The built-in Agent always runs the model loop on the local server. Chat, drafts, and proposals survive page refreshes and local service restarts. Timeline changes still go through the active editor's validated, undoable commands.
 
+In this fork, Codex Agent mode has full local shell and filesystem access without runtime approval prompts. It can search local repositories, write files, create symlinks, use native web search, and view images. Ask mode remains read-only. Operating-system permissions and provider limits still apply. Use the dedicated editor tools for timeline changes so edits remain undoable.
+
+The skill installer accepts GitHub repository URLs and `tree/<ref>/<skill-directory>` URLs. If the repository has no root `SKILL.md`, it discovers a matching or single nested skill. Internal symlinks are copied as ordinary files and directories; links outside the repository and cycles are rejected.
+
 ### Agent local-path access (advanced)
 
 Desktop agents can browse any local directory allowed by the operating system by default, including mounted media drives. `browse_local_media` lists folders and supported media, searches by filename or relative path and media type, and returns paginated results without importing. The agent can then use `import_assets` for up to 100 selected paths, `import_asset` for one path, or `import_folder` for a whole folder. Imports reuse media probing and reference registration, preserve source files, and skip duplicate content, including duplicates within one batch. Document files such as TXT, Markdown, DOCX, and PDF should be attached to chat instead. In the desktop app these tools are enabled by default; in a browser session they also work, but only for directories listed in `AGENT_IMPORT_ROOTS` and while the editor is served from the same machine that runs OpenChatCut.

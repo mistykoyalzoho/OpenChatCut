@@ -1,3 +1,4 @@
+import { homedir } from 'node:os';
 import type {
   CodexAgentToolSpec,
   CodexToolResultRequest,
@@ -5,7 +6,6 @@ import type {
   CodexTurnStreamEvent,
 } from '../../shared/codex-agent.ts';
 import {
-  CODEX_DISABLED_FEATURES,
   CodexAppServerClient,
   CodexRpcError,
   CodexTimeoutError,
@@ -28,6 +28,7 @@ interface PendingToolCall {
 
 interface TurnSession {
   readonly requestId: string;
+  readonly askOnly: boolean;
   readonly client: CodexAppServerClient;
   readonly toolNames: ReadonlySet<string>;
   readonly emit: StreamSink;
@@ -160,34 +161,38 @@ function baseInstructions(request: CodexTurnRequest): string {
         'You may call the provided read-only OpenChatCut tools when current skill or project evidence is needed.',
       ].join(' ')
     : [
-        'Use only the provided OpenChatCut editor tools when the task needs project reads or changes.',
-        'Their results come from the existing OpenChatCut proposal workflow; never claim a change succeeded before its tool result confirms success.',
+        'Use the provided OpenChatCut editor tools for timeline and project-document edits so changes stay validated and undoable.',
+        'Use native tools for local files, repositories, commands, and web research.',
+        'Never claim an editor change succeeded before its tool result confirms success.',
       ].join(' ');
   return [
     request.system.trim(),
     'OpenChatCut runtime rules:',
     `The requested project id is ${JSON.stringify(request.projectId)}. Do not switch to another project.`,
     mode,
-    'Shell, direct filesystem edits, web search, image-view, and multi-agent tools are disabled.',
+    request.askOnly
+      ? 'This is a read-only turn. Do not use shell commands or modify files.'
+      : 'You have full local shell and filesystem access for this user-requested task. Use it directly when appropriate, and report actions accurately.',
   ].filter(Boolean).join('\n\n');
 }
 
 function threadStartParams(request: CodexTurnRequest): Record<string, unknown> {
   return {
     ...(request.model?.trim() ? { model: request.model.trim() } : {}),
-    cwd: null,
+    cwd: request.askOnly ? null : homedir(),
     approvalPolicy: 'never',
-    sandbox: 'read-only',
+    sandbox: request.askOnly ? 'read-only' : 'danger-full-access',
     ephemeral: true,
     baseInstructions: baseInstructions(request),
     dynamicTools: dynamicTools(request.tools),
     config: {
       features: {
-        ...Object.fromEntries(CODEX_DISABLED_FEATURES.map((feature) => [feature, false])),
+        shell_tool: true,
+        unified_exec: true,
         code_mode_host: true,
       },
-      tools: { view_image: false },
-      web_search: 'disabled',
+      tools: { view_image: true },
+      web_search: 'live',
     },
   };
 }
@@ -206,6 +211,7 @@ function createSession(request: CodexTurnRequest, client: CodexAppServerClient, 
   let session: TurnSession;
   session = {
     requestId: request.requestId,
+    askOnly: request.askOnly === true,
     client,
     toolNames: new Set(request.tools.map((tool) => tool.name)),
     emit,
@@ -345,6 +351,23 @@ export class CodexTurnManager {
   }
 
   private serverRequest(session: TurnSession, request: CodexServerRequest): boolean {
+    if (request.method === 'item/commandExecution/requestApproval'
+      || request.method === 'item/fileChange/requestApproval') {
+      const threadId = identifier(request.params.threadId);
+      const turnId = identifier(request.params.turnId);
+      const active = threadId === session.threadId && turnId === session.turnId && !session.terminal;
+      if (!active) return false;
+      request.respond({ decision: active && !session.askOnly ? 'accept' : 'decline' });
+      return true;
+    }
+    if (request.method === 'execCommandApproval' || request.method === 'applyPatchApproval') {
+      const threadId = identifier(request.params.threadId) ?? identifier(request.params.conversationId);
+      if (!threadId || threadId !== session.threadId) return false;
+      request.respond(session.askOnly || session.terminal
+        ? { decision: { denied: { rejection: 'This is a read-only turn.' } } }
+        : { decision: { approved: {} } });
+      return true;
+    }
     if (request.method !== 'item/tool/call') return false;
     const threadId = identifier(request.params.threadId);
     if (!session.threadId || threadId !== session.threadId) return false;

@@ -55,13 +55,20 @@ async function checkCloneBoundaries(): Promise<void> {
   await mkdir(stage);
   await writeFile(outside, 'outside fixture');
   await symlink(outside, join(source, 'SKILL.md'));
-  await assert.rejects(stageCloneSkillFiles(source, stage), /symbolic links/);
+  await assert.rejects(stageCloneSkillFiles(source, stage), /escapes repository/);
   assert.deepEqual(await readdir(stage), []);
   await rm(join(source, 'SKILL.md'));
   await writeFile(join(source, 'SKILL.md'), skill);
-  await symlink(root, join(source, 'references'), process.platform === 'win32' ? 'junction' : 'dir');
-  await assert.rejects(stageCloneSkillFiles(source, stage), /symbolic links/);
+  await mkdir(join(source, 'shared'));
+  await writeFile(join(source, 'shared', 'guide.md'), 'linked guide');
+  await symlink('shared', join(source, 'references'), process.platform === 'win32' ? 'junction' : 'dir');
+  const linkedFiles = await stageCloneSkillFiles(source, stage);
+  assert.equal(await readFile(join(stage, 'references', 'guide.md'), 'utf8'), 'linked guide',
+    'internal directory symlinks are materialized under their skill path');
+  assert.ok(linkedFiles.some((file) => file.path === 'references/guide.md'));
   await rm(join(source, 'references'));
+  await rm(stage, { recursive: true, force: true });
+  await mkdir(stage);
   const large = await open(join(source, 'large.bin'), 'w');
   await large.truncate(MAX_FILE_BYTES + 1);
   await large.close();
@@ -86,6 +93,7 @@ async function checkRealGitFallback(): Promise<void> {
   await writeFile(join(source, 'SKILL.md'), skill);
   await mkdir(join(source, 'references'));
   await writeFile(join(source, 'references', 'guide.md'), 'local git fixture');
+  await symlink('guide.md', join(source, 'references', 'guide-link.md'));
   await git('git', ['init', source]);
   await git('git', ['-C', source, 'add', '.']);
   await git('git', ['-C', source, '-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '-m', 'test: add skill fixture']);
@@ -100,6 +108,8 @@ async function checkRealGitFallback(): Promise<void> {
     const result = await installGitHubSkill('fixtures/skill', 'fallback');
     assert.equal(result.source, 'git-clone');
     assert.equal(await readFile(join(installed, 'fallback', 'references', 'guide.md'), 'utf8'), 'local git fixture');
+    assert.equal(await readFile(join(installed, 'fallback', 'references', 'guide-link.md'), 'utf8'), 'local git fixture',
+      'an internal file symlink is materialized as a regular installed file');
   } finally {
     env.forEach((name, index) => {
       if (previous[index] === undefined) delete process.env[name];
@@ -141,7 +151,19 @@ try {
   assert.deepEqual(result.files, paths);
   assert.deepEqual(await readFile(join(installed, result.slug, paths[1]!)), contents[1]);
   assert.equal((await readFile(join(installed, result.slug, paths[2]!))).length, 0);
-  await rejectsTree([{ ...tree[0]!, mode: '120000' }], /symbolic links/);
+  fixtureTree = [
+    { ...tree[0]!, path: 'skills/hypit/SKILL.md' },
+    { ...tree[1]!, path: 'skills/hypit/assets/example.bin' },
+    { ...tree[2]!, path: 'skills/hypit/references/empty.txt' },
+    { ...tree[2]!, path: '.claude/skills/hypit', mode: '120000', type: 'blob' },
+  ];
+  const nested = await installGitHubSkill('https://github.com/fixtures/skill');
+  assert.equal(nested.source, 'api');
+  assert.equal(nested.slug, 'checked-skill');
+  assert.deepEqual(nested.files, paths);
+  const explicit = await installGitHubSkill('https://github.com/fixtures/skill/tree/main/skills/hypit');
+  assert.deepEqual(explicit.files, paths, 'a GitHub tree subpath installs relative skill files');
+  fixtureTree = tree;
   await rejectsTree([{ ...tree[0]!, path: '../SKILL.md' }], /invalid skill file path/);
   await rejectsTree([{ ...tree[0]!, size: MAX_FILE_BYTES + 1 }], /exceeds 4 MB/);
   await rejectsTree([{ ...tree[0]!, size: undefined as unknown as number }], /invalid file size/);
